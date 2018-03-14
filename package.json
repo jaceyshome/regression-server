@@ -1,0 +1,22 @@
+{
+  "name": "regression-test-server",
+  "version": "0.0.0",
+  "description": "regression testing server built with Koa.js as a Node.js application ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jaceyshome@bitbucket.org/jaceyshome/regression-test-server.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Koa.js",
+    "regression",
+    "testing"
+  ],
+  "author": "Jake Wang",
+  "license": "UNLICENSED",
+  "homepage": "https://bitbucket.org/jaceyshome/regression-test-server#readme"
+}
