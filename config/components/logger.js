@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { env, name } = require('./');
+const { env, name } = require('./../index');
 
 
 const directory = process.env.LOG_DIRECTORY || path.join(__dirname, '../../');

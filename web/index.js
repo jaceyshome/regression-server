@@ -3,18 +3,17 @@
 'use strict';
 
 // Load APM on production environment
-const config = require('./config');
-const apm = require('./apm');
-
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('kcors');
-const logMiddleware = require('./middlewares/log');
-const logger = require('./logger');
-const requestId = require('./middlewares/requestId');
-const responseHandler = require('./middlewares/responseHandler');
-const router = require('./routes');
 
+const config = require('./../config');
+const apm = require('./apm');
+
+const middleWares = require('./middlewares');
+const web = require('./../config/web');
+const logger = web.logger;
+const router = require('./router');
 
 const app = new Koa();
 
@@ -29,8 +28,8 @@ app.use(
     jsonLimit: '10mb'
   })
 );
-app.use(requestId());
-app.use(logMiddleware({ logger }));
+app.use(middleWares.requestId());
+app.use(middleWares.log({ logger }));
 app.use(
   cors({
     origin: '*',
@@ -38,7 +37,7 @@ app.use(
     exposeHeaders: ['X-Request-Id']
   })
 );
-app.use(responseHandler());
+app.use(middleWares.responseHandler());
 
 // Bootstrap application router
 app.use(router.routes());
