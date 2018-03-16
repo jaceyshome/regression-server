@@ -10,6 +10,10 @@
   Boilerplate for Node.js Koa RESTful API application with Docker, Swagger, Jest, Coveralls, and Circle CI
 </p>
 
+<p algin="center">
+    The project structure reference: https://blog.risingstack.com/node-js-project-structure-tutorial-node-js-at-scale/
+</p>  
+
 <div align="center">
   <a href="https://circleci.com/gh/posquit0/koa-rest-api-boilerplate">
     <img alt="CircleCI" src="https://circleci.com/gh/posquit0/koa-rest-api-boilerplate.svg?style=shield" />
