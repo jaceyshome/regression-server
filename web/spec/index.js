@@ -15,7 +15,6 @@ const options = {
       description: pkginfo.description
     },
     consumes: [
-      'application/x-www-form-urlencoded',
       'application/json'
     ],
     produces: ['application/json'],
@@ -30,11 +29,8 @@ const options = {
   },
   // Path to the API specs
   apis: [
-    path.join(__dirname, '../controllers/**/*.js'),
-    path.join(__dirname, './parameters.yaml'),
-    path.join(__dirname, './responses.yaml'),
-    path.join(__dirname, './models.yaml'),
-    path.join(__dirname, './tags.yaml')
+    path.join(__dirname, './../router/**/*.js'),
+    path.join(__dirname, './swagger.yaml')
   ]
 };
 const spec = swaggerJSDoc(options);
