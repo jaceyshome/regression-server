@@ -10,7 +10,7 @@ const env = process.env.NODE_ENV || 'development';
 const configs = {
   base: {
     env,
-    name: process.env.APP_NAME || 'image-api',
+    name: process.env.APP_NAME || 'regression-test-server-api',
     host: process.env.APP_HOST || '0.0.0.0',
     port: 7070
   },

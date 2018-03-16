@@ -21,10 +21,10 @@
   "engines": {
     "node": ">= 7.10.0"
   },
-  "main": "index.js",
+  "main": "./web/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "NODE_ENV=development nodemon --quiet | bunyan",
+    "start": "node ./web/index.js",
+    "dev": "NODE_ENV=development nodemon start ./web/index.js --quiet | bunyan",
     "test": "NODE_ENV=test jest --forceExit --verbose",
     "test:unit": "npm test -- test/unit",
     "test:integration": "npm test -- test/integration",
