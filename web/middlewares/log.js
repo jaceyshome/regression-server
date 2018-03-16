@@ -43,8 +43,9 @@ function resSerializer(ctx = {}) {
 function log(options = {}) {
   const { logger = null } = options;
 
-  if (typeof logger !== 'object' || logger === null)
-    throw new TypeError('Logger required');
+  if (typeof logger !== 'object' || logger === null) {
+      throw new TypeError('Logger required');
+  }
 
   return async (ctx, next) => {
     const startTime = new Date();

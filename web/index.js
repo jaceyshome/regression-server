@@ -11,8 +11,8 @@ const config = require('./../config');
 const apm = require('./apm');
 
 const middleWares = require('./middlewares');
-const web = require('./../config/web');
-const logger = web.logger;
+const webConfig = require('./../config/web');
+const logger = webConfig.logger;
 const router = require('./router');
 
 const app = new Koa();
@@ -28,6 +28,10 @@ app.use(
     jsonLimit: '10mb'
   })
 );
+
+// Load nedb
+app.use(middleWares.nedb(webConfig.nedb));
+
 app.use(middleWares.requestId());
 app.use(middleWares.log({ logger }));
 app.use(
@@ -38,7 +42,6 @@ app.use(
   })
 );
 app.use(middleWares.responseHandler());
-
 // Bootstrap application router
 app.use(router.routes());
 app.use(router.allowedMethods());
