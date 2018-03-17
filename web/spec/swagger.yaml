@@ -22,6 +22,7 @@ tags:
   description: "Operations available to the public, they have the privilege to\n1.\
     \ view histories\n"
 schemes:
+- "https"
 - "http"
 paths:
   /login:
@@ -287,7 +288,7 @@ definitions:
     - "instance"
     - "server"
     properties:
-      id:
+      _id:
         type: "string"
         format: "uid"
       instance:
@@ -316,13 +317,16 @@ definitions:
       server: "local"
       createdAt: "createdAt"
       instance: "linux-chrome"
-      id: "id"
+      _id: "_id"
   Record:
     type: "object"
     required:
     - "historyId"
     - "resourceType"
     properties:
+      _id:
+        type: "string"
+        format: "uid"
       historyId:
         type: "string"
         format: "uid"
@@ -362,6 +366,7 @@ definitions:
       isArchived: true
       approvedBy: "approvedBy"
       visualDiffer: "visualDiffer"
+      _id: "_id"
       visualScreenShot: "visualScreenShot"
       approvedAt: "2000-01-23T04:56:07.000+00:00"
       resourceType: "visualTest"
@@ -370,7 +375,7 @@ externalDocs:
   url: "http://#"
   x-mocks:
     user:
-      id: "J84csdrjgGKdo2d"
+      _id: "J84csdrjgGKdo2d"
       login: "abcd1234"
       name: "Jake Wang"
       secret: "d290f1ee6c544b0190e6d701748f0851"
@@ -379,26 +384,26 @@ externalDocs:
       - "Author"
       - "Viewer"
     history:
-      id: "hkgKJ84rjgGVXSXS"
+      _id: "hkgKJ84rjgGVXSXS"
       instance: "linux-chrome"
       server: "train"
       createdAt: "2018-03-15T09:12:33.001Z"
     searchReference: "visual-screenshot/linux-chrome/train/corporate/site-title.png"
     recordVisualTestReferenceArchived:
-      id: "fVtm3FkvKwaYRSH1"
+      _id: "fVtm3FkvKwaYRSH1"
       historyId: "jmVsOEZBWHaKPEOH"
       isArchived: true
       resourceType: "visualReference"
       screenshot: "visual-screenshot/linux-chrome/train/corporate/site-title.png"
       createdAt: "2018-03-15T09:12:33.001Z"
     recordVisualTestReference:
-      id: "NZnTG4StwzPI2qoE"
+      _id: "NZnTG4StwzPI2qoE"
       historyId: "iYEFCpQB3T20O9iE"
       resourceType: "visualReference"
       screenshot: "visual-screenshot/linux-chrome/train/corporate/accordion.png"
       createdAt: "2018-03-15T09:12:33.001Z"
     recordVisualTestResult:
-      id: "KcpAj5Y2O6N7F5ul"
+      _id: "KcpAj5Y2O6N7F5ul"
       historyId: "hkgKJ84rjgGVXSXS"
       resourceType: "visualTest"
       visualReferenceId: "NZnTG4StwzPI2qoE"
@@ -407,7 +412,7 @@ externalDocs:
       pass: false
       createdAt: "2018-03-15T09:12:33.001Z"
     recordVisualTestResultPass:
-      id: "KcpAj5Y2O6N7F5ul"
+      _id: "KcpAj5Y2O6N7F5ul"
       historyId: "hkgKJ84rjgGVXSXS"
       resourceType: "visualTest"
       visualReferenceId: "NZnTG4StwzPI2qoE"
@@ -415,7 +420,7 @@ externalDocs:
       pass: true
       createdAt: "2018-03-15T09:12:33.001Z"
     visualTestResultApproved:
-      id: "wYUcu6GcUXqHZm1M"
+      _id: "wYUcu6GcUXqHZm1M"
       historyId: "hkgKJ84rjgGVXSXS"
       resourceType: "visualTest"
       visualReferenceId: "NZnTG4StwzPI2qoE"
@@ -426,13 +431,13 @@ externalDocs:
       approvedAt: "2018-03-25T09:12:33.001Z"
       approvedBy: "J84csdrjgGKdo2d"
     functionalTestResult:
-      id: "OzXiStRgcuoJsD3X"
+      _id: "OzXiStRgcuoJsD3X"
       historyId: "hkgKJ84rjgGVXSXS"
       resourceType: "functionalTest"
       test: "functional-test/linux-chrome/train/cucumber.json"
       createdAt: "2018-03-15T09:12:33.001Z"
     historyRecords:
-      id: "hkgKJ84rjgGVXSXS"
+      _id: "hkgKJ84rjgGVXSXS"
       instance: "linux-chrome"
       server: "train"
       createdAt: "2018-03-15T09:12:33.001Z"

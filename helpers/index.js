@@ -1,4 +1,5 @@
-const Strings = required('./strings');
+const strings = require('./strings');
+const dates = require('./dates');
 
 
 /**
@@ -10,8 +11,9 @@ const Strings = required('./strings');
  *  // -> af2d
  * @type {{Booleans: Booleans, Numbers: Numbers, Colors: Colors, Strings: Strings}}
  */
-let Helpers = {
-    Strings
+let helpers = {
+    dates,
+    strings
 };
 
-export {Helpers};
+module.exports = helpers;

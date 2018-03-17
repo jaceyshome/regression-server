@@ -5,11 +5,11 @@ const schemaNames = ["histories", "records"];
 
 let datastore = {};
 
-async function initPersistentDataStore(options) {
-    const dbExists = await fs.exists(options.filename);
+function initPersistentDataStore(options) {
+    const dbExists = fs.exists(options.filename);
     let store;
     if (!dbExists) {
-        store = new Datastore({filename: options.filename});
+        store = new Datastore(options);
     } else {
         store = new Datastore(options.filename);
     }
@@ -17,7 +17,7 @@ async function initPersistentDataStore(options) {
     return store;
 }
 
-async function initInMemoryDataStore() {
+function initInMemoryDataStore() {
     return new Datastore();
 }
 
@@ -27,15 +27,18 @@ function nedb(options = {}) {
         throw new TypeError('Nedb options required');
     }
 
-    schemaNames.forEach((schemaName) => {
-        datastore[schemaName] = (options.inMemoryOnly) ?
-            initInMemoryDataStore(options) :
-            initPersistentDataStore(Object.assign({}, options, {
-                filename: `${options.filename}${schemaName}.ds`
-            }));
-    });
+    return async (ctx, next) => {
 
-    return async(ctx, next) => {
+        schemaNames.forEach((schemaName) => {
+            if(options.inMemoryOnly){
+                datastore[schemaName] = initInMemoryDataStore(options);
+            } else {
+                datastore[schemaName] = initPersistentDataStore(Object.assign({}, options, {
+                    filename: `${options.filename}${schemaName}.ds`
+                }));
+            }
+        });
+
         ctx.datastore = datastore;
         await next();
     };

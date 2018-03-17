@@ -3,26 +3,27 @@
 const supertest = require('supertest');
 const web = require('../../../index');
 
-describe.only('History post', () => {
+describe.only('History post /history', () => {
     let request;
     beforeEach(() => {
         request = supertest(web.listen());
     });
 
-    describe('GET /history', () => {
-        it('<200> should always return the latest history', async() => {
-            const res = await request
-                .get('/')
-                .expect('Content-Type', /json/)
-                .expect(200);
+    it('<200> should create a history', async() => {
+        const res = await request
+            .post('/history')
+            .send({
+                instance: "linux-chrome",
+                server: "train"
+            })
+            .expect('Content-Type', /json/)
+            .expect(200);
 
-            const spec = res.body;
-            expect(spec).toHaveProperty('info');
-            expect(spec).toHaveProperty('swagger', '2.0');
-            expect(spec).toHaveProperty('consumes');
-            expect(spec).toHaveProperty('produces');
-            expect(spec).toHaveProperty('paths');
-        });
+        const resData = res.body.data;
+        expect(resData).toHaveProperty('_id');
+        expect(resData).toHaveProperty('instance', 'linux-chrome');
+        expect(resData).toHaveProperty('server', "train");
+        expect(resData).toHaveProperty('createdAt');
     });
 
 });

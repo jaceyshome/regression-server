@@ -3,13 +3,13 @@ const service = require('./history-service');
 
 let historyController = {
 
-  createHistory() {
+    createHistory(ctx) {
+        return model.saveNewHistory(ctx);
+    },
 
-  },
+    getLatestHistory() {
 
-  getLatestHistory() {
-
-  }
+    }
 
 };
 
