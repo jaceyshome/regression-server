@@ -1,6 +1,6 @@
 const joi = require('joi');
-const helpers = require('../../../helpers');
-const spec = require('../../spec/');
+const helpers = require('./../../../helpers');
+const spec = require('./../../spec/');
 
 const schemaNewHistory = joi.object().keys({
     instance: joi.string().allow(spec.definitions.History.properties.instance.enum).required(),
