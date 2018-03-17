@@ -22,24 +22,24 @@ app.proxy = true;
 
 // Set middlewares
 app.use(
-  bodyParser({
-    enableTypes: ['json', 'form'],
-    formLimit: '10mb',
-    jsonLimit: '10mb'
-  })
+    bodyParser({
+        enableTypes: ['json', 'form'],
+        formLimit: '10mb',
+        jsonLimit: '10mb'
+    })
 );
 
 // Load nedb
 app.use(middleWares.nedb(webConfig.nedb));
 
 app.use(middleWares.requestId());
-app.use(middleWares.log({ logger }));
+app.use(middleWares.log({logger}));
 app.use(
-  cors({
-    origin: '*',
-    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-    exposeHeaders: ['X-Request-Id']
-  })
+    cors({
+        origin: '*',
+        allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+        exposeHeaders: ['X-Request-Id']
+    })
 );
 app.use(middleWares.responseHandler());
 // Bootstrap application router
@@ -48,16 +48,16 @@ app.use(router.allowedMethods());
 
 // Handle uncaught errors
 app.on('error', err => {
-  if (apm.active)
-    apm.captureError(err);
-  logger.error({ err, event: 'error' }, 'Unhandled exception occured');
+    if (apm.active)
+        apm.captureError(err);
+    logger.error({err, event: 'error'}, 'Unhandled exception occured');
 });
 
 // Start server
 if (!module.parent) {
-  app.listen(config.port, config.host, () => {
-    logger.info({ event: 'execute' }, `API server listening on ${config.host}:${config.port}, in ${config.env}`);
-  });
+    app.listen(config.port, config.host, () => {
+        logger.info({event: 'execute'}, `API server listening on ${config.host}:${config.port}, in ${config.env}`);
+    });
 }
 
 // Expose app

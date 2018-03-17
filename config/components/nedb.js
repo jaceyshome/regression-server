@@ -5,7 +5,7 @@ const common = require('./common');
 let options = {
     inMemoryOnly: false
 };
-if (common.env === "test" ) {
+if (common.env === "test") {
     options.inMemoryOnly = true;
 } else if (common.env === "production") {
     options.filename = path.join(process.cwd(), '/datastore/production-')

@@ -3,14 +3,11 @@
 const supertest = require('supertest');
 const web = require('../../../index');
 
-describe('History get', () => {
-    let request;
-    beforeEach(() => {
-        request = supertest(web.listen());
-    });
+describe('Spec', () => {
+    const request = supertest(web.listen());
 
-    describe('GET /history', () => {
-        it.only('<200> should always return the latest history', async() => {
+    describe('GET /', () => {
+        it('<200> should always return with the API server information', async() => {
             const res = await request
                 .get('/')
                 .expect('Content-Type', /json/)

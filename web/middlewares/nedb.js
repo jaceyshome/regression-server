@@ -1,5 +1,5 @@
 'use strict';
-const fs= require('fs-extra');
+const fs = require('fs-extra');
 const Datastore = require('nedb');
 const schemaNames = ["histories", "records"];
 
@@ -8,8 +8,8 @@ let datastore = {};
 async function initPersistentDataStore(options) {
     const dbExists = await fs.exists(options.filename);
     let store;
-    if(!dbExists) {
-        store = new Datastore({ filename: options.filename });
+    if (!dbExists) {
+        store = new Datastore({filename: options.filename});
     } else {
         store = new Datastore(options.filename);
     }
@@ -27,15 +27,15 @@ function nedb(options = {}) {
         throw new TypeError('Nedb options required');
     }
 
-    schemaNames.forEach((schemaName)=> {
+    schemaNames.forEach((schemaName) => {
         datastore[schemaName] = (options.inMemoryOnly) ?
-                        initInMemoryDataStore(options) :
-                        initPersistentDataStore(Object.assign({}, options, {
-                            filename: `${options.filename}${schemaName}.ds`
-                        }));
+            initInMemoryDataStore(options) :
+            initPersistentDataStore(Object.assign({}, options, {
+                filename: `${options.filename}${schemaName}.ds`
+            }));
     });
 
-    return async (ctx, next) => {
+    return async(ctx, next) => {
         ctx.datastore = datastore;
         await next();
     };
