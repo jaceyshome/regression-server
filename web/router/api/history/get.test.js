@@ -5,7 +5,8 @@ const supertest = require('supertest');
 const web = require('./../../../index');
 const support = require('./../../../test/support');
 
-describe('History post', () => {
+describe('History get', () => {
+
     let request;
     let app;
     beforeEach(() => {
@@ -13,18 +14,20 @@ describe('History post', () => {
         request = supertest(app.listen());
     });
 
-    test('<200> should create a history', async() => {
-        const res = await request
+    test('<200> should get the latest history with its list of records', async() => {
+        let res = await request
             .post('/history')
             .send(support.history.createNewHistoryObject())
             .expect('Content-Type', /json/)
             .expect(200);
 
-        const resData = res.body.data;
-        expect(resData).toHaveProperty('_id');
-        expect(resData).toHaveProperty('instance', 'linux-chrome');
-        expect(resData).toHaveProperty('server', "train");
-        expect(resData).toHaveProperty('createdAt');
+        res = await request
+            .post('/history')
+            .send(support.history.createNewHistoryObject())
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+
     });
 
 });
