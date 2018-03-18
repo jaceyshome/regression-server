@@ -3,11 +3,11 @@ const service = require('./service');
 
 let visualController = {
 
-    createHistory(ctx) {
-        return model.saveNewVisual(ctx);
+    createVisualTest(ctx) {
+
     },
 
-    getLatestHistory() {
+    approveVisualTest(ctx) {
 
     }
 

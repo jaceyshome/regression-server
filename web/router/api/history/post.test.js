@@ -25,6 +25,8 @@ describe('History post', () => {
         expect(resData).toHaveProperty('instance', 'linux-chrome');
         expect(resData).toHaveProperty('server', "train");
         expect(resData).toHaveProperty('createdAt');
+        expect(resData).toHaveProperty('visualTests');
+        expect(resData).toHaveProperty('visualReferences');
     });
 
 });

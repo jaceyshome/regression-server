@@ -30,6 +30,19 @@ let historyModel = {
                 }
             });
         });
+    },
+
+    getTheLatestHistory() {
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.histories.findOne({}).sort({}).limit(1).exec((err, result) => {
+                if(err){
+                    throw new Error(`Failed to find the latest history: ${err}`);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
     }
 };
 

@@ -6,8 +6,8 @@ let historyController = {
         return service.createHistory(ctx.request.body);
     },
 
-    getLatestHistory() {
-
+    getLatestHistory(ctx) {
+        return service.getLatestHistory(ctx.request.body);
     }
 
 };

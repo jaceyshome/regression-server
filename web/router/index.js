@@ -4,6 +4,7 @@ const Router = require('koa-router');
 const router = new Router();
 
 router.get('/', require('./api/spec/get'));
+router.get('/history', require('./api/history/get'));
 router.post('/history', require('./api/history/post'));
 
 module.exports = router;

@@ -1,9 +1,10 @@
 'use strict';
+const controller = require('./../../../components/history/controller');
 
-const spec = require('../../../spec');
-
-function get(ctx) {
-    return ctx.body = spec;
+async function get(ctx, next) {
+    let data = await controller.getLatestHistory(ctx);
+    ctx.res.success(data, "Success");
+    await next();
 }
 
 module.exports = get;

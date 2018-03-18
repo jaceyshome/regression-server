@@ -7,6 +7,7 @@ let options = {
     inMemoryOnly: false
 };
 if (common.env === "test") {
+    // options.filename = path.join(process.cwd(), '/datastore/test-');
     options.inMemoryOnly = true;
 } else if (common.env === "production") {
     options.filename = path.join(process.cwd(), '/datastore/production-');

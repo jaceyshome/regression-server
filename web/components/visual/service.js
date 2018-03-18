@@ -1,9 +1,19 @@
+const visualModel = require('./model');
+const historyModel = require('./../history/model');
+
 let visualService = {
 
-    getLatestHistoryWithRecords() {
+    approveTest(candidate) {
+
+    },
+
+    createReference(candidate) {
+
+    },
+
+    archiveReference(candidate) {
 
     }
-
 };
 
 module.exports = visualService;
