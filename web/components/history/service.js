@@ -5,7 +5,8 @@ const visualModel = require('./../visual/model');
 let historyService = {
 
     async createHistory(candidate) {
-        let history =  await historyModel.saveNewHistory(candidate);
+        let count = await historyModel.countHistories();
+        let history =  await historyModel.saveNewHistory(Object.assign({}, candidate, {weight: (count + 1) * 10}));
         history.visualTests = [];
         history.visualReferences = await visualModel.listVisualReferences();
         return history;

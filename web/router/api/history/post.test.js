@@ -27,6 +27,10 @@ describe('History post', () => {
         expect(resData).toHaveProperty('createdAt');
         expect(resData).toHaveProperty('visualTests');
         expect(resData).toHaveProperty('visualReferences');
+        expect(resData).toHaveProperty('weight', 10);
     });
+
+
+
 
 });
