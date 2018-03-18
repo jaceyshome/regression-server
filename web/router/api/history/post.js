@@ -1,7 +1,7 @@
 'use strict';
 const bunyan = require('bunyan');
 
-const controller = require('./../../../components/history/history-controller');
+const controller = require('./../../../components/history/controller');
 const log = bunyan.createLogger({name: "myapp"});
 
 async function post(ctx, next) {

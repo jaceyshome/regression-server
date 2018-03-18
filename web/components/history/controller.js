@@ -1,5 +1,5 @@
-const model = require('./history-model');
-const service = require('./history-service');
+const model = require('./model');
+const service = require('./service');
 
 let historyController = {
 

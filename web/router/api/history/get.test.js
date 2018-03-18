@@ -27,6 +27,12 @@ describe('History get', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
+        res = await request
+            .post('/history')
+            .send(support.history.createNewHistoryObject())
+            .expect('Content-Type', /json/)
+            .expect(200);
+
 
     });
 

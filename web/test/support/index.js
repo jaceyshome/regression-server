@@ -1,7 +1,9 @@
 const history = require('./history');
-const record = require('./record');
+const visual = require('./visual');
+const functional = require('./functional');
 
 module.exports = {
     history,
-    record
+    visual,
+    functional
 };
