@@ -1,10 +1,9 @@
-const model = require('./model');
 const service = require('./service');
 
 let historyController = {
 
     createHistory(ctx) {
-        return model.saveNewHistory(ctx);
+        return service.createHistory(ctx.request.body);
     },
 
     getLatestHistory() {

@@ -1,8 +1,10 @@
+const historyModel = require('./model');
+
 let historyService = {
 
-    getLatestHistoryWithRecords() {
-
-    }
+    createHistory(ctx) {
+        return historyModel.saveNewHistory(ctx);
+    },
 
 };
 

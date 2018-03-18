@@ -12,6 +12,8 @@ const apm = require('./apm');
 
 const middleWare = require('./middleware');
 const webConfig = require('./../config/web');
+const nedb = require('./../models/nedb');
+
 const logger = webConfig.logger;
 const router = require('./router');
 
@@ -31,7 +33,7 @@ function setup(app){
     );
 
     // Load nedb
-    app.use(middleWare.nedb(webConfig.nedb));
+    nedb.setup(webConfig.nedb);
 
     app.use(middleWare.requestId());
     app.use(middleWare.log({logger}));

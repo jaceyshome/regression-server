@@ -21,27 +21,24 @@ function initInMemoryDataStore() {
     return new Datastore();
 }
 
-function nedb(options = {}) {
+async function setup(options = {}) {
 
     if (options.inMemoryOnly === null) {
         throw new TypeError('Nedb options required');
     }
 
-    return async (ctx, next) => {
+    schemaNames.forEach((schemaName) => {
+        if(options.inMemoryOnly){
+            datastore[schemaName] = initInMemoryDataStore(options);
+        } else {
+            datastore[schemaName] = initPersistentDataStore(Object.assign({}, options, {
+                filename: `${options.filename}${schemaName}.ds`
+            }));
+        }
+    });
 
-        schemaNames.forEach((schemaName) => {
-            if(options.inMemoryOnly){
-                datastore[schemaName] = initInMemoryDataStore(options);
-            } else {
-                datastore[schemaName] = initPersistentDataStore(Object.assign({}, options, {
-                    filename: `${options.filename}${schemaName}.ds`
-                }));
-            }
-        });
-
-        ctx.datastore = datastore;
-        await next();
-    };
+    return await datastore;
 }
 
-module.exports = nedb;
+exports.setup = setup;
+exports.datastore = datastore;

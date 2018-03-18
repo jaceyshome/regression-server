@@ -1,6 +1,7 @@
 const joi = require('joi');
 const helpers = require('./../../../helpers');
 const spec = require('./../../spec/');
+const nedb = require('./../../../models/nedb');
 
 const schemaNewHistory = joi.object().keys({
     instance: joi.string().allow(spec.definitions.History.properties.instance.enum).required(),
@@ -10,9 +11,9 @@ const schemaNewHistory = joi.object().keys({
 
 let historyModel = {
 
-    saveNewHistory(ctx) {
+    saveNewHistory(candidate) {
 
-        const {error, value: data} = joi.validate(ctx.request.body, schemaNewHistory);
+        const {error, value: data} = joi.validate(candidate, schemaNewHistory);
         if (error) {
             throw new Error(`Invalid new history data: ${error.message}`)
         }
@@ -20,7 +21,7 @@ let historyModel = {
         data.createdAt = helpers.dates.getDateTime();
 
         return new Promise((resolve, reject)=> {
-            ctx.datastore.histories.insert(data, (err, result)=> {
+            nedb.datastore.histories.insert(data, (err, result)=> {
                 if(err){
                     throw new Error(`Failed to insert a new history: ${err}`);
                     reject(err);
@@ -29,10 +30,6 @@ let historyModel = {
                 }
             });
         });
-    },
-
-    set(data) {
-
     }
 };
 
