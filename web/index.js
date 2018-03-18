@@ -10,7 +10,7 @@ const cors = require('kcors');
 const config = require('./../config');
 const apm = require('./apm');
 
-const middleWares = require('./middlewares');
+const middleWare = require('./middleware');
 const webConfig = require('./../config/web');
 const logger = webConfig.logger;
 const router = require('./router');
@@ -21,7 +21,7 @@ function setup(app){
     // Trust proxy
     app.proxy = true;
 
-    // Set middlewares
+    // Set middleware
     app.use(
         bodyParser({
             enableTypes: ['json', 'form'],
@@ -31,10 +31,10 @@ function setup(app){
     );
 
     // Load nedb
-    app.use(middleWares.nedb(webConfig.nedb));
+    app.use(middleWare.nedb(webConfig.nedb));
 
-    app.use(middleWares.requestId());
-    app.use(middleWares.log({logger}));
+    app.use(middleWare.requestId());
+    app.use(middleWare.log({logger}));
     app.use(
         cors({
             origin: '*',
@@ -42,7 +42,7 @@ function setup(app){
             exposeHeaders: ['X-Request-Id']
         })
     );
-    app.use(middleWares.responseHandler());
+    app.use(middleWare.responseHandler());
 
     // Bootstrap application router
     app.use(router.routes());
