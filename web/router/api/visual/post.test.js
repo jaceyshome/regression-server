@@ -8,22 +8,122 @@ const support = require('./../../../test/support');
 describe('Visual post', () => {
     let request;
     let app;
-    beforeEach(() => {
+    let history;
+
+    beforeEach(async () => {
         app = web.setup(new Koa());
         request = supertest(app.listen());
+        const res = await request
+            .post('/history')
+            .send(support.history.getNewHistoryInstance())
+            .expect('Content-Type', /json/)
+            .expect(200);
+        history = res.body.data;
+        expect(history).toHaveProperty('_id');
+        expect(history).toHaveProperty('visualTests', []);
+        expect(history).toHaveProperty('visualReferences', []);
     });
 
-    test('<200> should create a record of the visual regression test', async() => {
-        const res = await request
+    it('should create a visual reference for the first run', async() => {
+
+        let res = await request
             .post('/visual')
-            .send(support.history.createNewHistoryObject())
+            .send(support.visual.getNewVisualReference({historyId: history._id}))
             .expect('Content-Type', /json/)
             .expect(200);
 
-        const resData = res.body.data;
-        expect(resData).toHaveProperty('_id');
+        let visualReference = res.body.data;
+        expect(visualReference).toHaveProperty('_id');
+        expect(visualReference).toHaveProperty('visualScreenshot');
+        expect(visualReference).toHaveProperty('historyId', history._id);
+        expect(visualReference).toHaveProperty('isArchived', false);
 
+        let latestHistoryResponse = await request
+            .get('/history')
+            .expect('Content-Type', /json/)
+            .expect(200);
 
+        expect(latestHistoryResponse.body.data.visualReferences[0]._id).toEqual(visualReference._id);
     });
 
+    describe('Visual test', async () => {
+        let visualReference;
+
+        beforeEach(async() => {
+            let res = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualReference({historyId: history._id}))
+                .expect('Content-Type', /json/)
+                .expect(200);
+            visualReference = res.body.data;
+        });
+
+        it('should create a pass visual test', async() => {
+
+            //Create reference to make sure it has the matched visualScreenshot
+            let passTestReference = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualReference({
+                    historyId: history._id,
+                    visualScreenshot: support.visual.getNewVisualPassTestInstance({
+                        historyId: history._id,
+                        visualReferenceId: visualReference._id
+                    }).visualScreenshot
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            visualReference = passTestReference.body.data;
+
+            let res = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualPassTestInstance({
+                    historyId: history._id,
+                    visualReferenceId: visualReference._id
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            let visualTestResult = res.body.data;
+            expect(visualTestResult).toHaveProperty('_id');
+            expect(visualTestResult).toHaveProperty('visualScreenshot', visualReference.visualScreenshot);
+            expect(visualTestResult).toHaveProperty('historyId', history._id);
+            expect(visualTestResult).toHaveProperty('pass', true);
+        });
+
+
+        it('should create a failed visual test', async() => {
+
+            //Create reference to make sure it has the matched visualScreenshot
+            let failedTestReference = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualReference({
+                    historyId: history._id,
+                    visualScreenshot: support.visual.getNewVisualFailedTestInstance({
+                        historyId: history._id,
+                        visualReferenceId: visualReference._id
+                    }).visualScreenshot
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            visualReference = failedTestReference.body.data;
+
+            let res = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualFailedTestInstance({
+                    historyId: history._id,
+                    visualReferenceId: visualReference._id
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            let visualTestResult = res.body.data;
+            expect(visualTestResult).toHaveProperty('_id');
+            expect(visualTestResult).toHaveProperty('visualScreenshot', visualReference.visualScreenshot);
+            expect(visualTestResult).toHaveProperty('historyId', history._id);
+            expect(visualTestResult).toHaveProperty('pass', false);
+        });
+
+    });
 });

@@ -5,7 +5,9 @@ let visualService = {
 
     async createVisualReference(candidate) {
         //If already have one, return the existed
-        let reference = await visualModel.findReference({visualScreenshot: candidate.visualScreenshot});
+        let reference = await visualModel.findOneReference({
+            historyId: candidate.historyId,
+            visualScreenshot: candidate.visualScreenshot});
 
         //else create a new one
         if(_.isEmpty(reference)) {
@@ -15,13 +17,12 @@ let visualService = {
     },
 
     async createVisualTest(candidate) {
-        let result = await visualModel.saveNewVisualTest(candidate);
-
-        //Check the reference whether is has been archived or not
-        //If it has been archived, still return it
-        let reference = await visualModel.findOneRecord(candidate);
-        result.referenceIsArchived = reference.isArchived || false;
-        return result;
+        let reference = await visualModel.findOneRecord({_id: candidate.visualReferenceId});
+        if(reference.visualScreenshot !== candidate.visualScreenshot){
+            throw new Error("Failed to create visual test as the reference " +
+                            "visual test screenshot doesn't match the candidate visual test screenshot");
+        }
+        return await visualModel.saveNewVisualTest(candidate);
     },
 
     async archiveReference(candidate) {

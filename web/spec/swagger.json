@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.0.0",
+    "version" : "1.1.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -343,11 +343,15 @@
     },
     "History" : {
       "type" : "object",
-      "required" : [ "instance", "server" ],
+      "required" : [ "instance", "server", "weight" ],
       "properties" : {
         "_id" : {
           "type" : "string",
           "format" : "uid"
+        },
+        "weight" : {
+          "type" : "integer",
+          "description" : "weight is for sorting and ordering"
         },
         "instance" : {
           "type" : "string",
@@ -366,6 +370,7 @@
         "server" : "local",
         "createdAt" : "createdAt",
         "instance" : "linux-chrome",
+        "weight" : 0,
         "_id" : "_id"
       }
     },
@@ -449,7 +454,24 @@
         "server" : "train",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "searchReference" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
+      "screenshotExample1" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
+      "screenshotExample2" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
+      "newHistory" : {
+        "instance" : "linux-chrome",
+        "server" : "train"
+      },
+      "newVisualReference" : {
+        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png"
+      },
+      "newPassVisualTest" : {
+        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/site-title.png"
+      },
+      "newFailedVisualTest" : {
+        "historyId" : "",
+        "visualReferenceId" : "",
+        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
+        "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion.png"
+      },
       "recordVisualTestReferenceArchived" : {
         "_id" : "fVtm3FkvKwaYRSH1",
         "historyId" : "jmVsOEZBWHaKPEOH",

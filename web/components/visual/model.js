@@ -5,8 +5,9 @@ const nedb = require('./../../../models/nedb');
 
 const schemaNewVisualTest = joi.object().keys({
     historyId: joi.string().required(),
-    referenceId: joi.string().required(),
-    visualScreenshot: joi.string().required()
+    visualReferenceId: joi.string().required(),
+    visualScreenshot: joi.string().required(),
+    visualDiffer: joi.string().optional()
 }).without('createdAt', 'approvedAt');
 
 const schemaReference = joi.object().keys({
@@ -114,8 +115,7 @@ let visualModel = {
     /**
      * Get reference by search object
      * @param {Object} candidate
-     * @param {string} candidate.referenceId
-     * @param {string} candidate.visualScreenshot
+     * @param {string} candidate._id
      */
     findOneRecord(candidate) {
 
@@ -136,6 +136,31 @@ let visualModel = {
             });
         });
     },
+
+    /**
+     * Get reference by search object
+     * @param {Object} candidate
+     */
+    findOneReference(candidate) {
+
+        const {error, value: data} = joi.validate(candidate, schemaReference);
+        if (error) {
+            throw new Error(`Invalid option for finding the record: ${error.message}`)
+        }
+
+        let id = candidate._id;
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.records.findOne(candidate, (err, result)=> {
+                if(err){
+                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
 
     archiveReference(candidate) {
 

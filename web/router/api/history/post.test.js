@@ -13,10 +13,10 @@ describe('History post', () => {
         request = supertest(app.listen());
     });
 
-    test('<200> should create a history', async() => {
+    it('should create a history', async() => {
         const res = await request
             .post('/history')
-            .send(support.history.createNewHistoryObject())
+            .send(support.history.getNewHistoryInstance())
             .expect('Content-Type', /json/)
             .expect(200);
 

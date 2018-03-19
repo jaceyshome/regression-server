@@ -14,22 +14,22 @@ describe('History get', () => {
         request = supertest(app.listen());
     });
 
-    test('<200> should get the latest history with list of records', async() => {
+    it('should get the latest history with list of records', async() => {
         let newHistoryResponse = await request
             .post('/history')
-            .send(support.history.createNewHistoryObject())
+            .send(support.history.getNewHistoryInstance())
             .expect('Content-Type', /json/)
             .expect(200);
 
         newHistoryResponse = await request
             .post('/history')
-            .send(support.history.createNewHistoryObject())
+            .send(support.history.getNewHistoryInstance())
             .expect('Content-Type', /json/)
             .expect(200);
 
         newHistoryResponse = await request
             .post('/history')
-            .send(support.history.createNewHistoryObject())
+            .send(support.history.getNewHistoryInstance())
             .expect('Content-Type', /json/)
             .expect(200);
 
