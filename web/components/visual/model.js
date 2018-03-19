@@ -7,7 +7,7 @@ const schemaNewVisualTest = joi.object().keys({
     historyId: joi.string().required(),
     referenceId: joi.string().required(),
     visualScreenshot: joi.string().required()
-}).without('createdAt', '_id');
+}).without('createdAt', 'approvedAt');
 
 const schemaReference = joi.object().keys({
     historyId: joi.string().required(),
@@ -20,6 +20,13 @@ const schemaApprovingVisualTest = joi.object().keys({
     historyId: joi.string().required()
 });
 
+const schemaArchiveReference = joi.object().keys({
+    _id: joi.string().required()
+});
+
+const schemaSearchCandidate = joi.object().keys({
+    _id: joi.string().required()
+});
 
 let visualModel = {
 
@@ -32,6 +39,8 @@ let visualModel = {
 
         data.createdAt = helpers.dates.getDateTime();
         data.resourceType = spec.definitions.Record.properties.resourceType.enum[0];
+        data.isArchived = false;
+        data.pass = data.visualDiffer ? false : true;
 
         return new Promise((resolve, reject)=> {
             nedb.datastore.records.insert(data, (err, result)=> {
@@ -54,6 +63,7 @@ let visualModel = {
 
         data.createdAt = helpers.dates.getDateTime();
         data.resourceType = spec.definitions.Record.properties.resourceType.enum[1];
+        data.isArchived = false;
 
         return new Promise((resolve, reject)=> {
             nedb.datastore.records.insert(data, (err, result)=> {
@@ -101,8 +111,49 @@ let visualModel = {
 
     },
 
+    /**
+     * Get reference by search object
+     * @param {Object} candidate
+     * @param {string} candidate.referenceId
+     * @param {string} candidate.visualScreenshot
+     */
+    findOneRecord(candidate) {
+
+        const {error, value: data} = joi.validate(candidate, schemaSearchCandidate);
+        if (error) {
+            throw new Error(`Invalid option for finding the record: ${error.message}`)
+        }
+
+        let id = candidate._id;
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.records.findOne({_id: id}, (err, result)=> {
+                if(err){
+                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
     archiveReference(candidate) {
 
+        const {error, value: data} = joi.validate(candidate, schemaArchiveReference);
+        if (error) {
+            throw new Error(`Invalid archive reference: ${error.message}`)
+        }
+
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.records.update({_id: candidate._id}, { $set: { isArchived: true } }, (err, result)=> {
+                if(err){
+                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
     },
 
     approveVisualTest(candidate) {
@@ -115,9 +166,15 @@ let visualModel = {
         data.pass = true;
 
         return new Promise((resolve, reject)=> {
-            //Find the visual test
-            //validate approved or not
-            //If haven't approved, update the record, else return
+
+            nedb.datastore.records.update({_id: candidate._id}, { $set: { isArchived: true } }, (err, result)=> {
+                if(err){
+                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
         });
     }
 

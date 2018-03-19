@@ -15,7 +15,7 @@ describe('Visual post', () => {
 
     test('<200> should create a record of the visual regression test', async() => {
         const res = await request
-            .post('/history')
+            .post('/visual')
             .send(support.history.createNewHistoryObject())
             .expect('Content-Type', /json/)
             .expect(200);
