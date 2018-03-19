@@ -125,5 +125,58 @@ describe('Visual post', () => {
             expect(visualTestResult).toHaveProperty('pass', false);
         });
 
+        it('should not create a visual test is the reference is not existed', async() => {
+
+            //Create reference to make sure it has the matched visualScreenshot
+            let passTestReference = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualReference({
+                    historyId: history._id,
+                    visualScreenshot: support.visual.getNewVisualPassTestInstance({
+                        historyId: history._id,
+                        visualReferenceId: visualReference._id
+                    }).visualScreenshot
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            visualReference = passTestReference.body.data;
+
+            let res = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualPassTestInstance({
+                    historyId: history._id,
+                    visualReferenceId: "ABCD"
+                }))
+                .expect(400);
+        });
+
+        it('should not create a visual test is the screenshot does not matched', async() => {
+
+            //Create reference to make sure it has the matched visualScreenshot
+            let passTestReference = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualReference({
+                    historyId: history._id,
+                    visualScreenshot: support.visual.getNewVisualPassTestInstance({
+                        historyId: history._id,
+                        visualReferenceId: visualReference._id
+                    }).visualScreenshot
+                }))
+                .expect('Content-Type', /json/)
+                .expect(200);
+
+            visualReference = passTestReference.body.data;
+
+            let res = await request
+                .post('/visual')
+                .send(support.visual.getNewVisualPassTestInstance({
+                    historyId: history._id,
+                    visualReferenceId: visualReference._id,
+                    visualScreenshot: "visual-screenshot/abc.png"
+                }))
+                .expect(400);
+        });
+
     });
 });

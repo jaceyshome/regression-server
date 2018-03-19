@@ -18,9 +18,10 @@ let visualService = {
 
     async createVisualTest(candidate) {
         let reference = await visualModel.findOneRecord({_id: candidate.visualReferenceId});
-        if(reference.visualScreenshot !== candidate.visualScreenshot){
-            throw new Error("Failed to create visual test as the reference " +
-                            "visual test screenshot doesn't match the candidate visual test screenshot");
+        if(_.isEmpty(reference) || reference.visualScreenshot !== candidate.visualScreenshot){
+            let err = {message: "Failed to create visual test as the reference " +
+                "visual test screenshot doesn't match the candidate visual test screenshot"};
+            return {err};
         }
         return await visualModel.saveNewVisualTest(candidate);
     },
