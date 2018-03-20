@@ -138,7 +138,7 @@
             },
             "examples" : {
               "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/historyRecords"
+                "$ref" : "#/externalDocs/x-mocks/latestHistory"
               }
             }
           },
@@ -438,6 +438,9 @@
         "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
         "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion.png"
       },
+      "newFunctionalTest" : {
+        "functionalResult" : "functional-test/linux-chrome/train/cucumber.json"
+      },
       "recordVisualTestReferenceArchived" : {
         "_id" : "fVtm3FkvKwaYRSH1",
         "historyId" : "jmVsOEZBWHaKPEOH",
@@ -488,20 +491,16 @@
         "_id" : "OzXiStRgcuoJsD3X",
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "functionalTest",
-        "test" : "functional-test/linux-chrome/train/cucumber.json",
+        "functionalResult" : "functional-test/linux-chrome/train/cucumber.json",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "historyRecords" : {
-        "_id" : "hkgKJ84rjgGVXSXS",
-        "instance" : "linux-chrome",
-        "server" : "train",
-        "createdAt" : "2018-03-15T09:12:33.001Z",
-        "visualTestResults" : [ {
-          "$ref" : "#/externalDocs/x-mocks/recordVisualTestResult"
-        } ],
-        "functionalTestResult" : {
-          "$ref" : "#/externalDocs/x-mocks/functionalTestResult"
-        }
+      "latestHistory" : {
+        "_id" : "wYUcu6GcUXqHZm1M",
+        "historyId" : "hkgKJ84rjgGVXSXS",
+        "functionalTest" : "",
+        "visualTests" : [ ],
+        "visualReferences" : [ ],
+        "createdAt" : "2018-03-15T09:12:33.001Z"
       }
     }
   }

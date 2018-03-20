@@ -5,8 +5,10 @@ const spec = require('./../../spec');
 
 module.exports = {
 
-    create(historyId) {
-
-    }
-
+    getNewFunctionalTestInstance({historyId, functionalResult}) {
+        let data = JSON.parse(JSON.stringify(spec.externalDocs["x-mocks"].newFunctionalTest));
+        data.historyId = historyId;
+        data.functionalResult = functionalResult || data.functionalResult;
+        return data;
+    },
 };
