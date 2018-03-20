@@ -181,38 +181,6 @@
       }
     },
     "/visual" : {
-      "get" : {
-        "tags" : [ "Author" ],
-        "summary" : "get visual",
-        "description" : "By passing in the appropriate options, you can search for\navailable record in the system\n",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "searchReference",
-          "in" : "query",
-          "description" : "search reference of the given screenshot path\n\"visual-screenshot/linux-chrome/train/corporate/site-title.png\"\n",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "search results matching criteria",
-            "schema" : {
-              "$ref" : "#/definitions/Record"
-            },
-            "examples" : {
-              "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/recordVisualTestReference"
-              }
-            }
-          },
-          "400" : {
-            "description" : "bad input parameter"
-          },
-          "404" : {
-            "description" : "not found"
-          }
-        }
-      },
       "post" : {
         "tags" : [ "Author" ],
         "summary" : "adds a visual test result or a reference to the required history",
@@ -455,7 +423,7 @@
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
       "screenshotExample1" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
-      "screenshotExample2" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
+      "screenshotExample2" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
       "newHistory" : {
         "instance" : "linux-chrome",
         "server" : "train"
@@ -467,8 +435,6 @@
         "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/site-title.png"
       },
       "newFailedVisualTest" : {
-        "historyId" : "",
-        "visualReferenceId" : "",
         "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
         "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion.png"
       },
