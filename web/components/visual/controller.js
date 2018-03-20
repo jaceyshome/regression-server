@@ -2,17 +2,37 @@ const service = require('./service');
 
 let visualController = {
 
-    createVisualRecord(ctx) {
+    async createVisualRecord(ctx) {
         //it is a visual reference if it doesn't have the referenceId
         if(!ctx.request.body.visualReferenceId) {
-            return service.createVisualReference(ctx.request.body);
+            return await service.createVisualReference(ctx.request.body);
         } else {
-            return service.createVisualTest(ctx.request.body);
+            return await service.createVisualTest(ctx.request.body);
         }
     },
 
-    approveVisualTest(ctx) {
+    async approveVisualTest(ctx) {
+        let approvedVisualTest =  await service.approveVisualTest(ctx.request.body);
+        if(approvedVisualTest.err) {
+            return approvedVisualTest;
+        }
+        let archivedReference = await service.archiveReference({_id: ctx.request.body.visualReferenceId});
+        if(archivedReference.err ) {
+            return archivedReference;
+        }
+        let newReference = await service.createVisualReference({
+            historyId: ctx.request.body.historyId,
+            visualScreenshot: ctx.request.body.visualScreenshot
+        });
+        if(newReference.err) {
+            return newReference;
+        }
 
+        return await {
+            approvedVisualTest ,
+            archivedReference ,
+            newReference
+        };
     }
 
 };

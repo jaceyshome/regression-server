@@ -1,8 +1,8 @@
 'use strict';
-const controller = require('./../../../components/history/controller');
+const controller = require('./../../../components/visual/controller');
 
 async function post(ctx, next) {
-    let data = await controller.createHistory(ctx);
+    let data = await controller.approveVisualTest(ctx);
     if(data.err){
         ctx.res.badRequest({message: data.err.message});
     } else {

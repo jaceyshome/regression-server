@@ -7,5 +7,6 @@ router.get('/', require('./api/spec/get'));
 router.get('/history', require('./api/history/get'));
 router.post('/history', require('./api/history/post'));
 router.post('/visual', require('./api/visual/post'));
+router.put('/visual', require('./api/visual/put'));
 
 module.exports = router;

@@ -9,15 +9,13 @@ const schemaNewHistory = joi.object().keys({
     server: joi.string().allow(spec.definitions.History.properties.server.enum).required()
 }).without('createdAt', '_id');
 
-
 let historyModel = {
 
     countHistories() {
         return new Promise((resolve, reject)=> {
             nedb.datastore.histories.count({}, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to insert a new history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to insert a new history: ${err}`));
                 } else {
                     resolve(result);
                 }
@@ -27,18 +25,16 @@ let historyModel = {
 
     saveNewHistory(candidate) {
 
-        const {error, value: data} = joi.validate(candidate, schemaNewHistory);
-        if (error) {
-            throw new Error(`Invalid new history data: ${error.message}`)
-        }
-
         return new Promise((resolve, reject)=> {
+            const {error, value: data} = joi.validate(candidate, schemaNewHistory);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid new history data: ${error.message}`));
+            }
             data.createdAt = helpers.dates.getDateTime();
 
             nedb.datastore.histories.insert(data, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to insert a new history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to insert a new history: ${err}`));
                 } else {
                     resolve(result);
                 }
@@ -50,14 +46,32 @@ let historyModel = {
         return new Promise((resolve, reject)=> {
             nedb.datastore.histories.find({}).sort({weight: -1}).limit(1).exec((err, result) => {
                 if(err){
-                    throw new Error(`Failed to find the latest history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to find the latest history: ${err}`));
                 } else {
                     resolve(result[0]);
                 }
             });
         });
+    },
+
+    /**
+     * Get reference by search object
+     * @param {Object} candidate
+     * @param {string} candidate._id
+     */
+    findOneHistory(candidate) {
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.records.findOne(candidate, (err, result)=> {
+                if(err){
+                    return reject(helpers.logger.error(`Failed to find the matched reference: ${err} for ${JSON.stringify(candidate)}`));
+                } else {
+                    resolve(result);
+                }
+            });
+        });
     }
+
+
 };
 
 module.exports = historyModel;

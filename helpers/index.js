@@ -1,6 +1,6 @@
 const strings = require('./strings');
 const dates = require('./dates');
-
+const logger = require('./logger');
 
 /**
  * A collection of the helpers classes: Strings, Booleans, Colors and Numbers
@@ -13,7 +13,8 @@ const dates = require('./dates');
  */
 let helpers = {
     dates,
-    strings
+    strings,
+    logger
 };
 
 module.exports = helpers;

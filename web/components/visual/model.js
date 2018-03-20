@@ -10,22 +10,19 @@ const schemaNewVisualTest = joi.object().keys({
     visualDiffer: joi.string().optional()
 }).without('createdAt', 'approvedAt');
 
-const schemaReference = joi.object().keys({
+const schemaSearchReference = joi.object().keys({
+    historyId: joi.string().required(),
+    visualScreenshot: joi.string().required(),
+    resourceType: joi.string().allow(spec.definitions.Record.properties.resourceType.enum[1]).required(),
+    isArchived: joi.boolean().optional()
+}).without('createdAt', '_id');
+
+const schemaNewReference = joi.object().keys({
     historyId: joi.string().required(),
     visualScreenshot: joi.string().required()
 }).without('createdAt', '_id');
 
-//TODO approveVisualTest add user name
-const schemaApprovingVisualTest = joi.object().keys({
-    _id: joi.string().required(),
-    historyId: joi.string().required()
-});
-
 const schemaArchiveReference = joi.object().keys({
-    _id: joi.string().required()
-});
-
-const schemaSearchCandidate = joi.object().keys({
     _id: joi.string().required()
 });
 
@@ -33,23 +30,25 @@ let visualModel = {
 
     saveNewVisualTest(candidate) {
 
-        const {error, value: data} = joi.validate(candidate, schemaNewVisualTest);
-        if (error) {
-            throw new Error(`Invalid new visual test data: ${error.message}`)
-        }
-
-        data.createdAt = helpers.dates.getDateTime();
-        data.resourceType = spec.definitions.Record.properties.resourceType.enum[0];
-        data.isArchived = false;
-        data.pass = data.visualDiffer ? false : true;
-
         return new Promise((resolve, reject)=> {
+
+            const {error, value: data} = joi.validate(candidate, schemaNewVisualTest);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid new visual test data: ${error.message}`));
+            }
+            if(candidate.visualDiffer) {
+                data.visualDiffer = candidate.visualDiffer;
+            }
+            data.createdAt = helpers.dates.getDateTime();
+            data.resourceType = spec.definitions.Record.properties.resourceType.enum[0];
+            data.isArchived = false;
+            data.pass = data.visualDiffer ? false : true;
+
             nedb.datastore.records.insert(data, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to insert a new history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to insert a new history: ${err}`));
                 } else {
-                    resolve(result);
+                    return resolve(result);
                 }
             });
         });
@@ -57,20 +56,20 @@ let visualModel = {
 
     saveNewVisualReference(candidate) {
 
-        const {error, value: data} = joi.validate(candidate, schemaReference);
-        if (error) {
-            throw new Error(`Invalid new visual reference data: ${error.message}`)
-        }
-
-        data.createdAt = helpers.dates.getDateTime();
-        data.resourceType = spec.definitions.Record.properties.resourceType.enum[1];
-        data.isArchived = false;
-
         return new Promise((resolve, reject)=> {
+
+            const {error, value: data} = joi.validate(candidate, schemaNewReference);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid new visual reference data: ${error.message}`));
+            }
+
+            data.createdAt = helpers.dates.getDateTime();
+            data.resourceType = spec.definitions.Record.properties.resourceType.enum[1];
+            data.isArchived = false;
+
             nedb.datastore.records.insert(data, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to insert a new history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to insert a new history: ${err}`));
                 } else {
                     resolve(result);
                 }
@@ -79,14 +78,17 @@ let visualModel = {
     },
 
     listHistoryVisualTests(historyId) {
-        if(!historyId){
-            throw new Error("History id is required to list history visual tests");
-        }
+
         return new Promise((resolve, reject)=> {
-            nedb.datastore.records.find({historyId}, (err, result)=> {
+            if(!historyId){
+                return reject(helpers.logger.error("History id is required to list history visual tests"));
+            }
+            nedb.datastore.records.find({
+                historyId: historyId,
+                resourceType: spec.definitions.Record.properties.resourceType.enum[0]
+            }, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to list history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to list history: ${err}`));
                 } else {
                     resolve(result);
                 }
@@ -96,14 +98,14 @@ let visualModel = {
     },
 
     listVisualReferences() {
+        
         return new Promise((resolve, reject)=> {
             nedb.datastore.records.find({
                 resourceType: spec.definitions.Record.properties.resourceType.enum[1],
                 isArchived: false
             }, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to insert a new history: ${err}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to insert a new history: ${err}`));
                 } else {
                     resolve(result);
                 }
@@ -118,18 +120,11 @@ let visualModel = {
      * @param {string} candidate._id
      */
     findOneRecord(candidate) {
-
-        const {error, value: data} = joi.validate(candidate, schemaSearchCandidate);
-        if (error) {
-            throw new Error(`Invalid option for finding the record: ${error.message}`)
-        }
-
-        let id = candidate._id;
         return new Promise((resolve, reject)=> {
-            nedb.datastore.records.findOne({_id: id}, (err, result)=> {
+            nedb.datastore.records.findOne(candidate, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to find the matched reference: 
+                                                        ${err} for ${JSON.stringify(candidate)}`));
                 } else {
                     resolve(result);
                 }
@@ -143,37 +138,35 @@ let visualModel = {
      */
     findOneReference(candidate) {
 
-        const {error, value: data} = joi.validate(candidate, schemaReference);
-        if (error) {
-            throw new Error(`Invalid option for finding the record: ${error.message}`)
-        }
-
-        let id = candidate._id;
         return new Promise((resolve, reject)=> {
+
+            const {error, value: data} = joi.validate(candidate, schemaSearchReference);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid option for finding the record: ${error.message}`));
+            }
+            let id = candidate._id;
             nedb.datastore.records.findOne(candidate, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to find the matched reference: ${err} for ${candidate}`));
                 } else {
                     resolve(result);
                 }
             });
+            
         });
     },
 
-
     archiveReference(candidate) {
 
-        const {error, value: data} = joi.validate(candidate, schemaArchiveReference);
-        if (error) {
-            throw new Error(`Invalid archive reference: ${error.message}`)
-        }
-
         return new Promise((resolve, reject)=> {
+
+            const {error, value: data} = joi.validate(candidate, schemaArchiveReference);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid archive reference: ${error.message}`));
+            }
             nedb.datastore.records.update({_id: candidate._id}, { $set: { isArchived: true } }, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to find the matched reference: ${err} for ${candidate}`));
                 } else {
                     resolve(result);
                 }
@@ -182,24 +175,22 @@ let visualModel = {
     },
 
     approveVisualTest(candidate) {
-        const {error, value: data} = joi.validate(candidate, schemaApprovingVisualTest);
-        if (error) {
-            throw new Error(`Invalid new visual reference data: ${error.message}`)
-        }
-
-        data.approvedAt = helpers.dates.getDateTime();
-        data.pass = true;
 
         return new Promise((resolve, reject)=> {
 
-            nedb.datastore.records.update({_id: candidate._id}, { $set: { isArchived: true } }, (err, result)=> {
+            let approvedAt = helpers.dates.getDateTime();
+
+            nedb.datastore.records.update(candidate, { $set: {
+                pass: true,
+                approvedAt: approvedAt
+            }}, (err, result)=> {
                 if(err){
-                    throw new Error(`Failed to find the matched reference: ${err} for ${candidate}`);
-                    reject(err);
+                    return reject(helpers.logger.error(`Failed to find the matched reference: ${err} for ${candidate}`));
                 } else {
                     resolve(result);
                 }
             });
+
         });
     }
 
