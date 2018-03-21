@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const historyModel = require('./model');
-const visualModel = require('./../visual/model');
-const functionModel = require('./../functional/model');
+const visualModel = require('./../visual-test/model');
+const functionModel = require('./../functional-test/model');
 
 let historyService = {
 

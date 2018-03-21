@@ -1,5 +1,5 @@
 'use strict';
-const controller = require('./../../../components/visual/controller');
+const controller = require('./../../../components/visual-test/controller');
 
 async function post(ctx, next) {
     let data = await controller.approveVisualTest(ctx);
