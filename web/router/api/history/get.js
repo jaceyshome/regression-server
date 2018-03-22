@@ -2,7 +2,7 @@
 const controller = require('./../../../components/history/controller');
 
 async function get(ctx, next) {
-    let data = await controller.getLatestHistory(ctx);
+    let data = await controller.get(ctx);
     if(data.err){
         ctx.res.badRequest({message: data.err.message});
     } else {

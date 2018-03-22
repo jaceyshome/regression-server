@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.1.0",
+    "version" : "1.2.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -126,7 +126,31 @@
         "summary" : "get the latest history",
         "description" : "includes a list of visual test results, the cucumber.json path as \nthe functional test result  \n",
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "get a history by id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "skip",
+          "in" : "query",
+          "description" : "number of histories to skip for pagination",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 10.0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of histories to return",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 10.0,
+          "minimum" : 0,
+          "format" : "int32"
+        } ],
         "responses" : {
           "200" : {
             "description" : "get the latest history with its list of records",
@@ -497,7 +521,7 @@
       "latestHistory" : {
         "_id" : "wYUcu6GcUXqHZm1M",
         "historyId" : "hkgKJ84rjgGVXSXS",
-        "functionalTest" : "",
+        "functionalTest" : { },
         "visualTests" : [ ],
         "visualReferences" : [ ],
         "createdAt" : "2018-03-15T09:12:33.001Z"

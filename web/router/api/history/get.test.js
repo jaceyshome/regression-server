@@ -5,52 +5,68 @@ const supertest = require('supertest');
 const web = require('./../../../index');
 const support = require('./../../../test/support');
 
+
+
 describe('History get', () => {
 
     let request;
     let app;
 
+    async function createHistories(counter=1) {
+        let response;
+
+        for(let i=0; i<counter; i++){
+            response = await request.post('/history')
+                .send(support.history.getNewHistoryInstance())
+                .expect('Content-Type', /json/)
+                .expect(200);
+        }
+
+        return await response;
+    }
+
     beforeEach(async () => {
         app = web.setup(new Koa());
         request = supertest(app.listen());
-        await request
-            .post('/history')
-            .send(support.history.getNewHistoryInstance())
-            .expect('Content-Type', /json/)
-            .expect(200);
     });
 
-    it('should get the latest history', async() => {
-        let newHistoryResponse = await request
-            .post('/history')
-            .send(support.history.getNewHistoryInstance())
-            .expect('Content-Type', /json/)
-            .expect(200);
+    it('should list histories', async() => {
+        let latestHistoryResponse = await createHistories(3);
 
-        newHistoryResponse = await request
-            .post('/history')
-            .send(support.history.getNewHistoryInstance())
-            .expect('Content-Type', /json/)
-            .expect(200);
-
-        let latestHistoryResponse = await request
+        let listHistoriesResponse = await request
             .get('/history')
             .expect('Content-Type', /json/)
             .expect(200);
 
-        const newHistoryData = newHistoryResponse.body.data;
-        const latestHistoryData = latestHistoryResponse.body.data;
+        const newHistoryData = latestHistoryResponse.body.data;
+        const histories = listHistoriesResponse.body.data;
 
-        expect(latestHistoryData).toHaveProperty('visualTests');
-        expect(latestHistoryData).toHaveProperty('visualReferences');
-        expect(latestHistoryData._id).toEqual(newHistoryData._id);
-        expect(latestHistoryData.weight).toEqual(30);
-
+        expect(histories.length).toEqual(3);
+        expect(histories[0].weight).toEqual(30);
+        expect(histories[0]._id).toEqual(newHistoryData._id);
     });
 
-    it('should get the latest history with a list of visual references', async() => {
+    it('should be able to list histories for pagination with default 10 limit', async() => {
+        let latestHistoryResponse = await createHistories(25);
+
+        let listHistoriesResponse = await request
+            .get('/history?skip=10')
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+        const newHistoryData = latestHistoryResponse.body.data;
+        const histories = listHistoriesResponse.body.data;
+
+        expect(histories.length).toEqual(10);
+        expect(histories[0].weight).toEqual(250-100);
+        expect(histories[histories.length - 1].weight).toEqual(250-200+10);
+    });
+
+    it('should get a history with a list of visual references, visual tests and functional results', async() => {
+        let latestHistoryResponse = await createHistories(1);
+
         let res = await request
-            .get('/history')
+            .get(`/history?id=${latestHistoryResponse.body.data._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -92,9 +108,9 @@ describe('History get', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
-        //list history
+        //get history
         res = await request
-            .get('/history')
+            .get(`/history?id=${history._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -130,9 +146,8 @@ describe('History get', () => {
             }).expect('Content-Type', /json/)
             .expect(200);
 
-        //list the history to check the visual tests
         res = await request
-            .get('/history')
+            .get(`/history?id=${history._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -156,9 +171,8 @@ describe('History get', () => {
             }).expect('Content-Type', /json/)
             .expect(200);
 
-        //list the history
         res = await request
-            .get('/history')
+            .get(`/history?id=${history._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 

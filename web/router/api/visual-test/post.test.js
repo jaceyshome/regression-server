@@ -39,7 +39,7 @@ describe('Visual post', () => {
         expect(visualReference).toHaveProperty('isArchived', false);
 
         let latestHistoryResponse = await request
-            .get('/history')
+            .get(`/history?id=${history._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 

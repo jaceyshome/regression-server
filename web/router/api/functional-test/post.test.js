@@ -13,12 +13,20 @@ describe('Functional post', () => {
     beforeEach(async () => {
         app = web.setup(new Koa());
         request = supertest(app.listen());
-        const res = await request
+        let res = await request
             .post('/history')
             .send(support.history.getNewHistoryInstance())
             .expect('Content-Type', /json/)
             .expect(200);
         history = res.body.data;
+
+        res = await request
+            .get(`/history?id=${history._id}`)
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+        history = res.body.data;
+
         expect(history).toHaveProperty('_id');
         expect(history).toHaveProperty('functionalTest');
         expect(history).toHaveProperty('visualTests', []);
@@ -26,7 +34,6 @@ describe('Functional post', () => {
     });
 
     it('should add the functional test result to the history', async() => {
-
         let res = await request
             .post('/functional')
             .send(support.functional.getNewFunctionalTestInstance({historyId: history._id}))
@@ -39,7 +46,7 @@ describe('Functional post', () => {
         expect(functionalTest).toHaveProperty('functionalResult');
 
         res = await request
-            .get('/history')
+            .get(`/history?id=${history._id}`)
             .expect('Content-Type', /json/)
             .expect(200);
 

@@ -9,6 +9,11 @@ const schemaNewHistory = joi.object().keys({
     server: joi.string().allow(spec.definitions.History.properties.server.enum).required()
 }).without('createdAt', '_id');
 
+const historyGetParameters = {
+    skip: spec.paths["/history"].get.parameters[1],
+    limit: spec.paths["/history"].get.parameters[2]
+};
+
 let historyModel = {
 
     countHistories() {
@@ -42,13 +47,27 @@ let historyModel = {
         });
     },
 
-    getTheLatestHistory() {
+    listHistories(candidate) {
+        let skip = parseInt(candidate.skip || historyGetParameters.skip.minimum);
+        let limit = parseInt(candidate.limit || historyGetParameters.limit.maximum);
         return new Promise((resolve, reject)=> {
-            nedb.datastore.histories.find({}).sort({weight: -1}).limit(1).exec((err, result) => {
+            nedb.datastore.histories.find({}).sort({weight: -1}).skip(skip).limit(limit).exec((err, result) => {
                 if(err){
-                    return reject(helpers.logger.error(`Failed to find the latest history: ${err}`));
+                    return reject(helpers.logger.error(`Failed to list histories: ${err}`));
                 } else {
-                    resolve(result[0]);
+                    resolve(result);
+                }
+            });
+        });
+    },
+
+    findHistory(candidate) {
+        return new Promise((resolve, reject)=> {
+            nedb.datastore.histories.findOne(candidate).exec((err, result) => {
+                if(err){
+                    return reject(helpers.logger.error(`Failed to find a history: ${err}`));
+                } else {
+                    resolve(result);
                 }
             });
         });
