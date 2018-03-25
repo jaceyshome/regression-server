@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.2.0",
+    "version" : "1.3.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -378,6 +378,12 @@
           "type" : "string",
           "format" : "uid"
         },
+        "instance" : {
+          "type" : "string"
+        },
+        "server" : {
+          "type" : "string"
+        },
         "resourceType" : {
           "type" : "string",
           "enum" : [ "visualTest", "visualReference", "functionalTest" ]
@@ -415,18 +421,20 @@
         }
       },
       "example" : {
-        "visualReferenceId" : "visualReferenceId",
-        "createdAt" : "2000-01-23T04:56:07.000+00:00",
+        "server" : "server",
+        "instance" : "instance",
         "pass" : true,
-        "historyId" : "historyId",
         "isArchived" : true,
         "approvedBy" : "approvedBy",
+        "approvedAt" : "2000-01-23T04:56:07.000+00:00",
+        "functionalResult" : "functionalResult",
+        "visualReferenceId" : "visualReferenceId",
+        "createdAt" : "2000-01-23T04:56:07.000+00:00",
+        "historyId" : "historyId",
         "visualDiffer" : "visualDiffer",
         "_id" : "_id",
         "visualScreenShot" : "visualScreenShot",
-        "approvedAt" : "2000-01-23T04:56:07.000+00:00",
-        "resourceType" : "visualTest",
-        "functionalResult" : "functionalResult"
+        "resourceType" : "visualTest"
       }
     }
   },
@@ -476,6 +484,8 @@
       "recordVisualTestReference" : {
         "_id" : "NZnTG4StwzPI2qoE",
         "historyId" : "iYEFCpQB3T20O9iE",
+        "instance" : "linux-chrome",
+        "server" : "dev",
         "resourceType" : "visualReference",
         "screenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
         "createdAt" : "2018-03-15T09:12:33.001Z"

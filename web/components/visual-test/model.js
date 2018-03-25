@@ -118,6 +118,8 @@ let visualModel = {
 
             nedb.datastore.records.find({
                 resourceType: spec.definitions.Record.properties.resourceType.enum[1],
+                instance: data.instance,
+                server: data.server,
                 isArchived: false
             }, (err, result)=> {
                 if(err){
