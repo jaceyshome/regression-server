@@ -1,4 +1,5 @@
 const visualModel = require('./model');
+const historyModel = require('./../history/model');
 const _ = require('lodash');
 const spec = require('./../../spec');
 const helpers = require('./../../../helpers');
@@ -7,6 +8,7 @@ let visualService = {
 
     async createVisualReference(candidate) {
         //If already have activated one, return the existed
+        let history = await historyModel.findHistory({_id: candidate.historyId});
         let reference = await visualModel.findOneReference({
             historyId: candidate.historyId,
             visualScreenshot: candidate.visualScreenshot,
@@ -16,7 +18,10 @@ let visualService = {
 
         //else create a new one
         if(_.isEmpty(reference)) {
-            reference = await visualModel.saveNewVisualReference(candidate);
+            reference = await visualModel.saveNewVisualReference(Object.assign(candidate,{
+                instance: history.instance,
+                server: history.server,
+            }));
         }
         return reference;
     },

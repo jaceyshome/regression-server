@@ -10,7 +10,10 @@ let historyService = {
         let history =  await historyModel.saveNewHistory(Object.assign({}, candidate, {weight: (count + 1) * 10}));
         history.functionalTest = {};
         history.visualTests = [];
-        history.visualReferences = await visualModel.listVisualReferences();
+        history.visualReferences = await visualModel.listVisualReferences({
+            instance: history.instance,
+            server: history.server
+        });
         return history;
     },
 
@@ -26,7 +29,10 @@ let historyService = {
         }
         history.functionalTest = await functionModel.getFunctionalTestResult(history._id);
         history.visualTests = await visualModel.listHistoryVisualTests(history._id);
-        history.visualReferences = await visualModel.listVisualReferences();
+        history.visualReferences = await visualModel.listVisualReferences({
+            instance: history.instance,
+            server: history.server
+        });
         return history;
     },
 

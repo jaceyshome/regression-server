@@ -14,16 +14,25 @@ const schemaSearchReference = joi.object().keys({
     historyId: joi.string().required(),
     visualScreenshot: joi.string().required(),
     resourceType: joi.string().allow(spec.definitions.Record.properties.resourceType.enum[1]).required(),
-    isArchived: joi.boolean().optional()
+    isArchived: joi.boolean().optional(),
+    instance: joi.string().optional(),
+    server: joi.string().optional()
 }).without('createdAt', '_id');
 
 const schemaNewReference = joi.object().keys({
     historyId: joi.string().required(),
+    instance: joi.string().allow(spec.definitions.History.properties.instance.enum).required(),
+    server: joi.string().allow(spec.definitions.History.properties.server.enum).required(),
     visualScreenshot: joi.string().required()
 }).without('createdAt', '_id');
 
 const schemaArchiveReference = joi.object().keys({
     _id: joi.string().required()
+});
+
+const schemaListReference = joi.object().keys({
+    instance: joi.string().allow(spec.definitions.History.properties.instance.enum).required(),
+    server: joi.string().allow(spec.definitions.History.properties.server.enum).required()
 });
 
 let visualModel = {
@@ -80,6 +89,7 @@ let visualModel = {
     listHistoryVisualTests(historyId) {
 
         return new Promise((resolve, reject)=> {
+
             if(!historyId){
                 return reject(helpers.logger.error("History id is required to list history visual tests"));
             }
@@ -97,9 +107,15 @@ let visualModel = {
 
     },
 
-    listVisualReferences() {
-        
+    listVisualReferences(candidate) {
+
         return new Promise((resolve, reject)=> {
+
+            const {error, value: data} = joi.validate(candidate, schemaListReference);
+            if (error) {
+                return reject(helpers.logger.error(`Invalid options for listing reference: ${error.message}`));
+            }
+
             nedb.datastore.records.find({
                 resourceType: spec.definitions.Record.properties.resourceType.enum[1],
                 isArchived: false

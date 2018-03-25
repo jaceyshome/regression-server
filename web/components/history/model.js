@@ -73,23 +73,6 @@ let historyModel = {
         });
     },
 
-    /**
-     * Get reference by search object
-     * @param {Object} candidate
-     * @param {string} candidate._id
-     */
-    findOneHistory(candidate) {
-        return new Promise((resolve, reject)=> {
-            nedb.datastore.records.findOne(candidate, (err, result)=> {
-                if(err){
-                    return reject(helpers.logger.error(`Failed to find the matched reference: ${err} for ${JSON.stringify(candidate)}`));
-                } else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-
 
 };
 
