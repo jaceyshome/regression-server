@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.3.0",
+    "version" : "1.4.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -15,111 +15,11 @@
   "host" : "virtserver.swaggerhub.com",
   "basePath" : "/usyd-wdd/regression-test-server/1.0.0",
   "tags" : [ {
-    "name" : "Admin",
-    "description" : "Secured Admin-only, they have the privilege to \n1. add, update or delete users\n"
-  }, {
-    "name" : "Author",
-    "description" : "Secured Author-only calls, they have the privilege to \n1. approve visual regression results\n2. run visual and functional regression tests\n"
-  }, {
     "name" : "Viewer",
-    "description" : "Operations available to the public, they have the privilege to\n1. view histories\n"
+    "description" : "Operations available to the public include the privilege to\n1. view histories\n"
   } ],
   "schemes" : [ "https", "http" ],
   "paths" : {
-    "/login" : {
-      "post" : {
-        "tags" : [ "Viewer" ],
-        "summary" : "log in",
-        "description" : "login author or admin",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "an author or admin to login",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "login success",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            },
-            "examples" : {
-              "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/user"
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          }
-        }
-      }
-    },
-    "/logout" : {
-      "post" : {
-        "tags" : [ "Viewer" ],
-        "summary" : "log out",
-        "description" : "logout author or admin",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "an author or admin to logout",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "logout success"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          }
-        }
-      }
-    },
-    "/user" : {
-      "post" : {
-        "tags" : [ "Admin" ],
-        "summary" : "adds a new user",
-        "description" : "creates a new user",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "an author or admin to add",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "user created",
-            "examples" : {
-              "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/user"
-              }
-            }
-          },
-          "400" : {
-            "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
-          }
-        }
-      }
-    },
     "/history" : {
       "get" : {
         "tags" : [ "Viewer" ],
@@ -154,15 +54,15 @@
         "responses" : {
           "200" : {
             "description" : "get the latest history with its list of records",
+            "examples" : {
+              "application/json" : {
+                "$ref" : "#/externalDocs/x-mocks/latestHistory"
+              }
+            },
             "schema" : {
               "type" : "array",
               "items" : {
                 "$ref" : "#/definitions/History"
-              }
-            },
-            "examples" : {
-              "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/latestHistory"
               }
             }
           },
@@ -300,39 +200,6 @@
     }
   },
   "definitions" : {
-    "User" : {
-      "type" : "object",
-      "required" : [ "login", "secret" ],
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "login" : {
-          "type" : "string"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "secret" : {
-          "type" : "string",
-          "format" : "password"
-        },
-        "types" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "example" : {
-        "types" : [ "types", "types" ],
-        "name" : "name",
-        "id" : "id",
-        "secret" : "secret",
-        "login" : "login"
-      }
-    },
     "History" : {
       "type" : "object",
       "required" : [ "instance", "server", "weight" ],
@@ -461,6 +328,7 @@
         "server" : "train"
       },
       "newVisualReference" : {
+        "historyId" : "hkgKJ84rjgGVXSXS",
         "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png"
       },
       "newPassVisualTest" : {
