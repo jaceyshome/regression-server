@@ -6,7 +6,7 @@ const web = require('./../../../index');
 const support = require('./../../../test/support');
 const spec = require('./../../../spec');
 
-describe('Visual post', () => {
+describe('Visual test update', () => {
     let request;
     let app;
     let history;
@@ -29,13 +29,7 @@ describe('Visual post', () => {
 
         res = await request
             .post('/visual')
-            .send(support.visual.getNewVisualReference({
-                historyId: history._id,
-                visualScreenshot: support.visual.getNewVisualFailedTestInstance({
-                    historyId: history._id,
-                    visualReferenceId: ""
-                }).visualScreenshot
-            }))
+            .send(support.visual.getNewVisualReference({historyId: history._id}))
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -45,13 +39,13 @@ describe('Visual post', () => {
     });
 
     it('should approve a failed visual test', async() => {
+        let data = spec.externalDocs["x-mocks"].newFailedVisualTest;
+        data.historyId = history._id;
+        data.visualReferenceId = visualReference._id;
 
         let res = await request
             .post('/visual')
-            .send(support.visual.getNewVisualFailedTestInstance({
-                historyId: history._id,
-                visualReferenceId: visualReference._id
-            }))
+            .send(data)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -60,6 +54,7 @@ describe('Visual post', () => {
         expect(visualTestResult).toHaveProperty('visualScreenshot', visualReference.visualScreenshot);
         expect(visualTestResult).toHaveProperty('visualReferenceId', visualReference._id);
         expect(visualTestResult).toHaveProperty('visualDiffer');
+        expect(visualTestResult).toHaveProperty('visualDifferPath');
         expect(visualTestResult).toHaveProperty('historyId', history._id);
         expect(visualTestResult).toHaveProperty('pass', false);
 
@@ -70,6 +65,7 @@ describe('Visual post', () => {
                 visualReferenceId: visualTestResult.visualReferenceId,
                 visualScreenshot: visualTestResult.visualScreenshot,
                 visualDiffer: visualTestResult.visualDiffer,
+                visualDifferPath: visualTestResult.visualDifferPath,
                 _id: visualTestResult._id
             })
             .expect('Content-Type', /json/)

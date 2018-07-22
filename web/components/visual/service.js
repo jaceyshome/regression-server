@@ -26,13 +26,13 @@ let visualService = {
         return reference;
     },
 
-    async createVisualTest(candidate) {
+    async createVisualTestResult(candidate) {
         let reference = await visualModel.findOneRecord({_id: candidate.visualReferenceId});
         if(_.isEmpty(reference) || reference.visualScreenshot !== candidate.visualScreenshot){
             return helpers.logger.error("Failed to create visual test as the reference " +
                 "visual test screenshot doesn't match the candidate visual test screenshot");
         }
-        return await visualModel.saveNewVisualTest(candidate);
+        return await visualModel.saveVisualTestResult(candidate);
     },
 
     async archiveReference(candidate) {
@@ -41,7 +41,7 @@ let visualService = {
             return reference;
         }
         let result = await visualModel.archiveReference(candidate);
-        if(result == 1) {
+        if(Object.is(result,1)) {
             return await visualModel.findOneRecord(candidate);
         } else {
             return helpers.logger.error(`Failed to archive the visual reference: ${JSON.stringify(candidate)}`);
@@ -58,7 +58,7 @@ let visualService = {
             return visualTest;
         }
         let result = await visualModel.approveVisualTest(Object.assign({}, candidate, {resourceType: visualTest.resourceType}));
-        if(result == 1) {
+        if(Object.is(result,1)) {
             return await visualModel.findOneRecord(candidate);
         } else {
             return helpers.logger.error(`Failed to approve the visual test: ${JSON.stringify(candidate)}`);

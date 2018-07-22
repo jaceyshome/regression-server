@@ -4,7 +4,7 @@ const Koa = require('koa');
 const supertest = require('supertest');
 const web = require('./../../../index');
 const support = require('./../../../test/support');
-
+const spec = require('./../../../spec');
 
 
 describe('History get', () => {
@@ -75,36 +75,33 @@ describe('History get', () => {
         expect(history).toHaveProperty('visualReferences');
         expect(history.weight).toEqual(10);
 
-        let image1 = 'linux-chrome/train/corporate/image1.png';
-        let image2 = 'linux-chrome/train/corporate/image2.png';
+        let data = spec.externalDocs["x-mocks"].newVisualReference;
+        let image1 =  spec.externalDocs["x-mocks"].screenshotExample1;
+        let image2 =  spec.externalDocs["x-mocks"].screenshotExample2;
+
+        data.historyId = history._id;
+        data.visualScreenshot = image1;
 
         //create the reference for image1
         res = await request
             .post('/visual')
-            .send({
-                historyId: history._id,
-                visualScreenshot: `visual-screenshot/${image1}`
-            })
+            .send(data)
             .expect('Content-Type', /json/)
             .expect(200);
+
+        data.visualScreenshot = image2;
 
         //create the reference for image2
         res = await request
             .post('/visual')
-            .send({
-                historyId: history._id,
-                visualScreenshot: `visual-screenshot/${image2}`
-            })
+            .send(data)
             .expect('Content-Type', /json/)
             .expect(200);
 
         //should get the reference for image2
         res = await request
             .post('/visual')
-            .send({
-                historyId: history._id,
-                visualScreenshot: `visual-screenshot/${image2}`
-            })
+            .send(data)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -114,36 +111,34 @@ describe('History get', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
+        history = res.body.data;
         expect(res.body.data).toHaveProperty('visualReferences');
         expect(res.body.data.visualReferences.length).toEqual(2);
 
+
         //create the pass visual test for image1
-        history = res.body.data;
         let reference = history.visualReferences.find((visualReference)=> {
             return visualReference.visualScreenshot.includes(image1);
         });
+        data = spec.externalDocs["x-mocks"].newPassVisualTest;
+        data.historyId = history._id;
+        data.visualReferenceId = reference._id;
         res = await request
             .post('/visual')
-            .send({
-                historyId: history._id,
-                visualReferenceId: `${reference._id}`,
-                visualScreenshot: `visual-screenshot/${image1}`
-            }).expect('Content-Type', /json/)
+            .send(data).expect('Content-Type', /json/)
             .expect(200);
 
-        //create the failed visual test for image2
-        reference = history.visualReferences.find((visualReference)=> {
-            return visualReference.visualScreenshot.includes(image2);
-        });
+
+        //create the failed visual test for image1
+        data = spec.externalDocs["x-mocks"].newFailedVisualTest;
+        data.historyId = history._id;
+        data.visualReferenceId = reference._id;
+        data.isSameDimensions = true;
+        data.misMatchPercentage = 1.2;
         let existedReference = reference;
         res = await request
             .post('/visual')
-            .send({
-                historyId: history._id,
-                visualReferenceId: `${reference._id}`,
-                visualScreenshot: `visual-screenshot/${image2}`,
-                visualDiffer: `visual-differ/${image2}`
-            }).expect('Content-Type', /json/)
+            .send(data).expect('Content-Type', /json/)
             .expect(200);
 
         res = await request
@@ -154,10 +149,11 @@ describe('History get', () => {
         expect(res.body.data).toHaveProperty('visualTests');
         expect(res.body.data.visualTests.length).toEqual(2);
 
+
         //approve the failed visual test
         history = res.body.data;
         let failedTest = history.visualTests.find((visualTest)=> {
-            return visualTest.pass == false;
+            return Object.is(visualTest.pass, false);
         });
 
         res = await request
@@ -190,6 +186,7 @@ describe('History get', () => {
 
         expect(newReference._id).not.toEqual(existedReference._id);
         expect(newReference.visualScreenshot).toEqual(existedReference.visualScreenshot);
+
 
     });
 

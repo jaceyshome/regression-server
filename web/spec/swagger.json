@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.4.0",
+    "version" : "1.5.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -24,7 +24,7 @@
       "get" : {
         "tags" : [ "Viewer" ],
         "summary" : "get the latest history",
-        "description" : "includes a list of visual test results, the cucumber.json path as \nthe functional test result  \n",
+        "description" : "includes a list of visual test results, the cucumber.json path as\nthe functional test result\n",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -72,7 +72,7 @@
         }
       },
       "post" : {
-        "tags" : [ "Author" ],
+        "tags" : [ "Viewer" ],
         "summary" : "adds a new history",
         "description" : "creates a new history at each of the regression test starting point",
         "consumes" : [ "application/json" ],
@@ -80,7 +80,7 @@
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "history item to add",
+          "description" : "new history",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/History"
@@ -106,7 +106,7 @@
     },
     "/visual" : {
       "post" : {
-        "tags" : [ "Author" ],
+        "tags" : [ "Viewer" ],
         "summary" : "adds a visual test result or a reference to the required history",
         "description" : "use it to add a visual test result or a reference",
         "consumes" : [ "application/json" ],
@@ -114,10 +114,10 @@
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "a test result with the 'visualTest' type to add or \na reference with the 'visualReference' type to add\n",
+          "description" : "a test result with the 'visualTest' type to add or\na reference with the 'visualReference' type to add\n",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Record"
+            "$ref" : "#/definitions/VisualReference"
           }
         } ],
         "responses" : {
@@ -125,7 +125,7 @@
             "description" : "item created",
             "examples" : {
               "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/recordVisualTestResult"
+                "$ref" : "#/externalDocs/x-mocks/newVisualReference"
               }
             }
           },
@@ -138,7 +138,7 @@
         }
       },
       "put" : {
-        "tags" : [ "Author" ],
+        "tags" : [ "Viewer" ],
         "summary" : "approve a failed visual test result",
         "description" : "an failed visual test result to update",
         "produces" : [ "application/json" ],
@@ -167,7 +167,7 @@
     },
     "/functional" : {
       "post" : {
-        "tags" : [ "Author" ],
+        "tags" : [ "Viewer" ],
         "summary" : "adds a functional test result",
         "description" : "adds the cucumber test result json file as a record to the rescord schema\n",
         "consumes" : [ "application/json" ],
@@ -185,7 +185,7 @@
             "description" : "item created",
             "examples" : {
               "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/recordVisualTestReference"
+                "$ref" : "#/externalDocs/x-mocks/functionalTestResult"
               }
             }
           },
@@ -202,7 +202,7 @@
   "definitions" : {
     "History" : {
       "type" : "object",
-      "required" : [ "instance", "server", "weight" ],
+      "required" : [ "instance", "server" ],
       "properties" : {
         "_id" : {
           "type" : "string",
@@ -233,6 +233,126 @@
         "_id" : "_id"
       }
     },
+    "VisualReference" : {
+      "type" : "object",
+      "required" : [ "browser", "historyId", "url" ],
+      "properties" : {
+        "_id" : {
+          "type" : "string",
+          "format" : "uid"
+        },
+        "resourceType" : {
+          "type" : "string"
+        },
+        "instance" : {
+          "type" : "string"
+        },
+        "server" : {
+          "type" : "string"
+        },
+        "historyId" : {
+          "type" : "string",
+          "format" : "uid"
+        },
+        "browser" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "visualScreenShot" : {
+          "type" : "string"
+        },
+        "visualScreenShotPath" : {
+          "type" : "string",
+          "description" : "visual screenshot"
+        },
+        "isArchived" : {
+          "type" : "boolean"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "server" : "server",
+        "createdAt" : "2000-01-23T04:56:07.000+00:00",
+        "instance" : "instance",
+        "historyId" : "historyId",
+        "isArchived" : true,
+        "browser" : "browser",
+        "name" : "name",
+        "visualScreenShotPath" : "visualScreenShotPath",
+        "_id" : "_id",
+        "visualScreenShot" : "visualScreenShot",
+        "url" : "url",
+        "resourceType" : "resourceType"
+      }
+    },
+    "VisualTestResult" : {
+      "type" : "object",
+      "required" : [ "browser", "historyId", "url", "visualReferenceId" ],
+      "properties" : {
+        "_id" : {
+          "type" : "string",
+          "format" : "uid"
+        },
+        "resourceType" : {
+          "type" : "string"
+        },
+        "instance" : {
+          "type" : "string"
+        },
+        "server" : {
+          "type" : "string"
+        },
+        "historyId" : {
+          "type" : "string",
+          "format" : "uid"
+        },
+        "visualReferenceId" : {
+          "type" : "string",
+          "format" : "uid"
+        },
+        "browser" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "visualScreenShot" : {
+          "type" : "string"
+        },
+        "visualScreenShotPath" : {
+          "type" : "string",
+          "description" : "visual screenshot file path"
+        },
+        "visualDiffer" : {
+          "type" : "string"
+        },
+        "visualDifferPath" : {
+          "type" : "string",
+          "description" : "visual differ file path"
+        },
+        "pass" : {
+          "type" : "boolean"
+        },
+        "isArchived" : {
+          "type" : "boolean"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
     "Record" : {
       "type" : "object",
       "required" : [ "historyId", "resourceType" ],
@@ -251,21 +371,34 @@
         "server" : {
           "type" : "string"
         },
+        "browser" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
         "resourceType" : {
           "type" : "string",
           "enum" : [ "visualTest", "visualReference", "functionalTest" ]
         },
-        "isArchived" : {
-          "type" : "boolean"
-        },
         "visualReferenceId" : {
           "type" : "string"
+        },
+        "filePath" : {
+          "type" : "string",
+          "description" : "visual screenshot or visual differ file path"
         },
         "visualScreenShot" : {
           "type" : "string"
         },
         "visualDiffer" : {
           "type" : "string"
+        },
+        "isArchived" : {
+          "type" : "boolean"
         },
         "functionalResult" : {
           "type" : "string"
@@ -292,12 +425,16 @@
         "instance" : "instance",
         "pass" : true,
         "isArchived" : true,
+        "filePath" : "filePath",
         "approvedBy" : "approvedBy",
         "approvedAt" : "2000-01-23T04:56:07.000+00:00",
+        "url" : "url",
         "functionalResult" : "functionalResult",
         "visualReferenceId" : "visualReferenceId",
         "createdAt" : "2000-01-23T04:56:07.000+00:00",
         "historyId" : "historyId",
+        "browser" : "browser",
+        "name" : "name",
         "visualDiffer" : "visualDiffer",
         "_id" : "_id",
         "visualScreenShot" : "visualScreenShot",
@@ -308,72 +445,81 @@
   "externalDocs" : {
     "url" : "http://#",
     "x-mocks" : {
-      "user" : {
-        "_id" : "J84csdrjgGKdo2d",
-        "login" : "abcd1234",
-        "name" : "Jake Wang",
-        "secret" : "d290f1ee6c544b0190e6d701748f0851",
-        "types" : [ "Admin", "Author", "Viewer" ]
-      },
+      "screenshotExample1" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+      "screenshotExample2" : "train/linux-chrome/screenshots/the-accordion-component_w1024.png",
       "history" : {
         "_id" : "hkgKJ84rjgGVXSXS",
         "instance" : "linux-chrome",
         "server" : "train",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "screenshotExample1" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
-      "screenshotExample2" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
       "newHistory" : {
-        "instance" : "linux-chrome",
-        "server" : "train"
+        "server" : "train",
+        "instance" : "linux-chrome"
       },
       "newVisualReference" : {
         "historyId" : "hkgKJ84rjgGVXSXS",
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png"
+        "browser" : "Chrome 65.0.3325.181",
+        "url" : "https://cws-localdev.sydney.edu.au/styleguide/accordion.html",
+        "name" : "the accordion component",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png"
       },
       "newPassVisualTest" : {
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/site-title.png"
+        "historyId" : "jmVsOEZBWHaKPEOH",
+        "visualReferenceId" : "NZnTG4StwzPI2qoE",
+        "browser" : "Chrome 65.0.3325.181",
+        "url" : "https://cws-localdev.sydney.edu.au/styleguide/accordion.html",
+        "name" : "the accordion component",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/jmVsOEZBWHaKPEOH/train/linux-chrome/screenshots/the-accordion-component_w768.png"
       },
       "newFailedVisualTest" : {
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
-        "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion.png"
+        "historyId" : "ZwVlRQ3qtnpUoxqt",
+        "browser" : "Chrome 65.0.3325.181",
+        "url" : "http://cws-localdev.sydney.edu.au//study.html",
+        "name" : "mobile navigation dropdown menu",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/ZwVlRQ3qtnpUoxqt/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualReferenceId" : "LdSjF2OxobGu5UUN",
+        "visualDiffer" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualDifferPath" : "output/visual/ZwVlRQ3qtnpUoxqt/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "isSameDimensions" : true,
+        "misMatchPercentage" : 1.22
       },
-      "newFunctionalTest" : {
-        "functionalResult" : "functional-test/linux-chrome/train/cucumber.json"
-      },
-      "recordVisualTestReferenceArchived" : {
+      "visualTestReferenceArchived" : {
         "_id" : "fVtm3FkvKwaYRSH1",
         "historyId" : "jmVsOEZBWHaKPEOH",
         "isArchived" : true,
         "resourceType" : "visualReference",
-        "screenshot" : "visual-screenshot/linux-chrome/train/corporate/site-title.png",
+        "screenshot" : "train/linux-chrome/screenshots/corporate/site-title.png",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "recordVisualTestReference" : {
+      "visualTestReference" : {
         "_id" : "NZnTG4StwzPI2qoE",
         "historyId" : "iYEFCpQB3T20O9iE",
         "instance" : "linux-chrome",
         "server" : "dev",
         "resourceType" : "visualReference",
-        "screenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
+        "screenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "recordVisualTestResult" : {
+      "visualTestResult" : {
         "_id" : "KcpAj5Y2O6N7F5ul",
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
-        "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
+        "visualDiffer" : "train/linux-chrome/differs/corporate/accordion.png",
         "pass" : false,
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
-      "recordVisualTestResultPass" : {
+      "visualTestResultPass" : {
         "_id" : "KcpAj5Y2O6N7F5ul",
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
         "pass" : true,
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
@@ -382,27 +528,60 @@
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "visual-screenshot/linux-chrome/train/corporate/accordion-component.png",
-        "visualDiffer" : "visual-differ/linux-chrome/train/corporate/accordion-component.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion-component.png",
+        "visualDiffer" : "train/linux-chrome/differs/corporate/accordion-component.png",
         "pass" : true,
         "createdAt" : "2018-03-15T09:12:33.001Z",
         "approvedAt" : "2018-03-25T09:12:33.001Z",
         "approvedBy" : "J84csdrjgGKdo2d"
       },
+      "newFunctionalTest" : {
+        "functionalResult" : "functional-test/train/linux-chrome/cucumber.json"
+      },
       "functionalTestResult" : {
         "_id" : "OzXiStRgcuoJsD3X",
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "functionalTest",
-        "functionalResult" : "functional-test/linux-chrome/train/cucumber.json",
+        "functionalResult" : "functional-test/train/linux-chrome/cucumber.json",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
       "latestHistory" : {
-        "_id" : "wYUcu6GcUXqHZm1M",
-        "historyId" : "hkgKJ84rjgGVXSXS",
+        "instance" : "local",
+        "server" : "localdev",
+        "weight" : "20,",
+        "createdAt" : "2018-07-22T15:01:42+10:00",
+        "_id" : "LvlmQZxu4ivLliFu",
         "functionalTest" : { },
-        "visualTests" : [ ],
-        "visualReferences" : [ ],
-        "createdAt" : "2018-03-15T09:12:33.001Z"
+        "visualTests" : [ {
+          "historyId" : "LvlmQZxu4ivLliFu",
+          "browser" : "Chrome 65.0.3325.181",
+          "url" : "http://cws-localdev.sydney.edu.au/study.html",
+          "name" : "Page visual regression test on the published /study.html on the CWS for Corporate",
+          "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+          "visualScreenshotPath" : "output/visual/LvlmQZxu4ivLliFu/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+          "visualReferenceId" : "H4dq0K3iYuTFl9F1",
+          "isSameDimensions" : "true,",
+          "misMatchPercentage" : "0,",
+          "createdAt" : "2018-07-22T15:01:58+10:00",
+          "resourceType" : "visualTest",
+          "isArchived" : false,
+          "pass" : true,
+          "_id" : "PjzGlvqTk57rXMLc"
+        } ],
+        "visualReferences" : [ {
+          "historyId" : "Zlf3MUCVeKKnuJfM",
+          "browser" : "Chrome 65.0.3325.181",
+          "url" : "http://cws-localdev.sydney.edu.au/study.html",
+          "name" : "Page visual regression test on the published /study.html on the CWS for Corporate",
+          "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+          "visualScreenshotPath" : "output/visual/LvlmQZxu4ivLliFu/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+          "instance" : "local",
+          "server" : "localdev",
+          "createdAt" : "2018-07-22T15:01:34+10:00",
+          "resourceType" : "visualReference",
+          "isArchived" : false,
+          "_id" : "H4dq0K3iYuTFl9F1"
+        } ]
       }
     }
   }

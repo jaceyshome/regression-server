@@ -7,7 +7,7 @@ let visualController = {
         if(!ctx.request.body.visualReferenceId) {
             return await service.createVisualReference(ctx.request.body);
         } else {
-            return await service.createVisualTest(ctx.request.body);
+            return await service.createVisualTestResult(ctx.request.body);
         }
     },
 

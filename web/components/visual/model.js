@@ -3,11 +3,29 @@ const helpers = require('./../../../helpers');
 const spec = require('./../../spec/');
 const nedb = require('./../../../models/nedb');
 
-const schemaNewVisualTest = joi.object().keys({
+const schemaNewReference = joi.object().keys({
+    instance: joi.string().required(),
+    server: joi.string().required(),
+    historyId: joi.string().required(),
+    browser: joi.string().required(),
+    url: joi.string().required(),
+    name: joi.string().optional(),
+    visualScreenshot: joi.string().required(),
+    visualScreenshotPath: joi.string().required()
+}).without('createdAt', '_id');
+
+const schemaVisualTestResult = joi.object().keys({
     historyId: joi.string().required(),
     visualReferenceId: joi.string().required(),
+    browser: joi.string().required(),
+    url: joi.string().required(),
+    name: joi.string().required(),
     visualScreenshot: joi.string().required(),
-    visualDiffer: joi.string().optional()
+    visualScreenshotPath: joi.string().required(),
+    isSameDimensions: joi.boolean().optional(),
+    misMatchPercentage: joi.number().optional(),
+    visualDiffer: joi.string().optional(),
+    visualDifferPath: joi.string().optional()
 }).without('createdAt', 'approvedAt');
 
 const schemaSearchReference = joi.object().keys({
@@ -17,13 +35,6 @@ const schemaSearchReference = joi.object().keys({
     isArchived: joi.boolean().optional(),
     instance: joi.string().optional(),
     server: joi.string().optional()
-}).without('createdAt', '_id');
-
-const schemaNewReference = joi.object().keys({
-    historyId: joi.string().required(),
-    instance: joi.string().allow(spec.definitions.History.properties.instance.enum).required(),
-    server: joi.string().allow(spec.definitions.History.properties.server.enum).required(),
-    visualScreenshot: joi.string().required()
 }).without('createdAt', '_id');
 
 const schemaArchiveReference = joi.object().keys({
@@ -37,12 +48,13 @@ const schemaListReference = joi.object().keys({
 
 let visualModel = {
 
-    saveNewVisualTest(candidate) {
+    saveVisualTestResult(candidate) {
 
         return new Promise((resolve, reject)=> {
 
-            const {error, value: data} = joi.validate(candidate, schemaNewVisualTest);
+            const {error, value: data} = joi.validate(candidate, schemaVisualTestResult);
             if (error) {
+                console.log("AAAADASDA", error);
                 return reject(helpers.logger.error(`Invalid new visual test data: ${error.message}`));
             }
             if(candidate.visualDiffer) {

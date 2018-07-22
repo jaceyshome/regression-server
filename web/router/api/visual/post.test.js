@@ -4,8 +4,9 @@ const Koa = require('koa');
 const supertest = require('supertest');
 const web = require('./../../../index');
 const support = require('./../../../test/support');
+const spec = require('./../../../spec');
 
-describe('Visual post', () => {
+describe('Visual reference', () => {
     let request;
     let app;
     let history;
