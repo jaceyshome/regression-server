@@ -46,6 +46,10 @@ const schemaListReference = joi.object().keys({
     server: joi.string().allow(spec.definitions.History.properties.server.enum).required()
 });
 
+const RESOURCE_TYPE_VISUAL_TEST = 0;
+const RESOURCE_TYPE_VISUAL_REFERENCE = 1;
+const RESOURCE_TYPE_FUNCTIONAL_TEST = 2;
+
 let visualModel = {
 
     saveVisualTestResult(candidate) {
@@ -61,7 +65,7 @@ let visualModel = {
                 data.visualDiffer = candidate.visualDiffer;
             }
             data.createdAt = helpers.dates.getDateTime();
-            data.resourceType = spec.definitions.Record.properties.resourceType.enum[0];
+            data.resourceType = spec.definitions.Record.properties.resourceType.enum[RESOURCE_TYPE_VISUAL_TEST];
             data.isArchived = false;
             data.pass = data.visualDiffer ? false : true;
 
@@ -85,7 +89,7 @@ let visualModel = {
             }
 
             data.createdAt = helpers.dates.getDateTime();
-            data.resourceType = spec.definitions.Record.properties.resourceType.enum[1];
+            data.resourceType = spec.definitions.Record.properties.resourceType.enum[RESOURCE_TYPE_VISUAL_REFERENCE];
             data.isArchived = false;
 
             nedb.datastore.records.insert(data, (err, result)=> {
@@ -107,7 +111,7 @@ let visualModel = {
             }
             nedb.datastore.records.find({
                 historyId: historyId,
-                resourceType: spec.definitions.Record.properties.resourceType.enum[0]
+                resourceType: spec.definitions.Record.properties.resourceType.enum[RESOURCE_TYPE_VISUAL_TEST]
             }, (err, result)=> {
                 if(err){
                     return reject(helpers.logger.error(`Failed to list history: ${err}`));
@@ -129,7 +133,7 @@ let visualModel = {
             }
 
             nedb.datastore.records.find({
-                resourceType: spec.definitions.Record.properties.resourceType.enum[1],
+                resourceType: spec.definitions.Record.properties.resourceType.enum[RESOURCE_TYPE_VISUAL_REFERENCE],
                 instance: data.instance,
                 server: data.server,
                 isArchived: false
