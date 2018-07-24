@@ -1,4 +1,5 @@
 const joi = require('joi');
+const _ = require('lodash');
 const helpers = require('./../../../helpers');
 const spec = require('./../../spec/');
 const nedb = require('./../../../models/nedb');
@@ -121,6 +122,28 @@ let visualModel = {
             });
         });
 
+    },
+
+    getHistoryAllPassObject(historyId) {
+
+        return new Promise((resolve, reject)=> {
+
+            if(!historyId){
+                return reject(helpers.logger.error("History id is required to check all HistoryVisualTestsPass"));
+            }
+            nedb.datastore.records.find({
+                historyId: historyId,
+                resourceType: spec.definitions.Record.properties.resourceType.enum[RESOURCE_TYPE_VISUAL_TEST],
+                pass: false,
+                isArchived: false
+            }, (err, result)=> {
+                if(err){
+                    helpers.logger.error("VisualModel, getHistoryAllPassObject, error", err);
+                }
+                resolve({allPass: _.isEmpty(result)});
+            });
+
+        });
     },
 
     listVisualReferences(candidate) {

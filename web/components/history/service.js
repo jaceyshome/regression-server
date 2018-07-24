@@ -37,9 +37,16 @@ let historyService = {
     },
 
     async listHistories(candidate) {
-        return historyModel.listHistories(candidate);
+        let histories = await historyModel.listHistories(candidate);
+        let requests = histories.map((history)=> historyService.getHistoryAllPassObject(history));
+        let results = await Promise.all(requests);
+        return results;
     },
 
+    async getHistoryAllPassObject(history) {
+        let result = await visualModel.getHistoryAllPassObject(history._id);
+        return Object.assign(history, result);
+    }
 };
 
 module.exports = historyService;
