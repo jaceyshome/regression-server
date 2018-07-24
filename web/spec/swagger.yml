@@ -191,7 +191,9 @@ definitions:
         enum: [linux-chrome, linux-firefox, mac-firefox, mac-chrome, win10-chrome, win10-firefox, win10-edge, win7-ie11]
       server:
         type: string
-        enum: [local, dev, test, train, prod]
+        enum: [local, dev, test, train, prod
+      allPass:
+        type: boolean
       createdAt:
         type: string
         format: data-time
@@ -427,6 +429,7 @@ externalDocs:
       weight: 20,
       createdAt: "2018-07-22T15:01:42+10:00"
       _id: "LvlmQZxu4ivLliFu"
+      allPass: true
       functionalTest: {}
       visualTests:
         -
