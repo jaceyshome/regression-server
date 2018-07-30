@@ -27,6 +27,9 @@ let historyService = {
         if(!history) {
             return history;
         }
+
+        let visualFailedTotal = await visualModel.getHistoryVisualFailedTotalObject(history._id);
+        Object.assign(history, visualFailedTotal);
         history.functionalTest = await functionModel.getFunctionalTestResult(history._id);
         history.visualTests = await visualModel.listHistoryVisualTests(history._id);
         history.visualReferences = await visualModel.listVisualReferences({
@@ -38,14 +41,14 @@ let historyService = {
 
     async listHistories(candidate) {
         let histories = await historyModel.listHistories(candidate);
-        let requests = histories.map((history)=> historyService.getHistoryAllPassObject(history));
-        let results = await Promise.all(requests);
-        return results;
+        let requests = histories.map((history)=> this.getHistoryVisualFailedTotalObject(history));
+        return await Promise.all(requests);
     },
 
-    async getHistoryAllPassObject(history) {
-        let result = await visualModel.getHistoryAllPassObject(history._id);
-        return Object.assign(history, result);
+    async getHistoryVisualFailedTotalObject(history) {
+        let result = await visualModel.getHistoryVisualFailedTotalObject(history._id);
+        Object.assign(history, result);
+        return history;
     }
 };
 

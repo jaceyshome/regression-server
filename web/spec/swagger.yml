@@ -192,8 +192,8 @@ definitions:
       server:
         type: string
         enum: [local, dev, test, train, prod
-      allPass:
-        type: boolean
+      visualFailedTotal:
+        type: integer
       createdAt:
         type: string
         format: data-time

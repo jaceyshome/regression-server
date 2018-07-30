@@ -124,7 +124,7 @@ let visualModel = {
 
     },
 
-    getHistoryAllPassObject(historyId) {
+    getHistoryVisualFailedTotalObject(historyId) {
 
         return new Promise((resolve, reject)=> {
 
@@ -140,7 +140,7 @@ let visualModel = {
                 if(err){
                     helpers.logger.error("VisualModel, getHistoryAllPassObject, error", err);
                 }
-                resolve({allPass: _.isEmpty(result)});
+                resolve({visualFailedTotal: result.length});
             });
 
         });
