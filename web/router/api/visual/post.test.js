@@ -37,6 +37,7 @@ describe('Visual reference', () => {
         expect(visualReference).toHaveProperty('_id');
         expect(visualReference).toHaveProperty('visualScreenshot');
         expect(visualReference).toHaveProperty('instance');
+        expect(visualReference).toHaveProperty('browser');
         expect(visualReference).toHaveProperty('server');
         expect(visualReference).toHaveProperty('historyId', history._id);
         expect(visualReference).toHaveProperty('isArchived', false);

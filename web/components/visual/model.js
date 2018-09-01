@@ -59,7 +59,6 @@ let visualModel = {
 
             const {error, value: data} = joi.validate(candidate, schemaVisualTestResult);
             if (error) {
-                console.log("AAAADASDA", error);
                 return reject(helpers.logger.error(`Invalid new visual test data: ${error.message}`));
             }
             if(candidate.visualDiffer) {
@@ -83,7 +82,6 @@ let visualModel = {
     saveNewVisualReference(candidate) {
 
         return new Promise((resolve, reject)=> {
-
             const {error, value: data} = joi.validate(candidate, schemaNewReference);
             if (error) {
                 return reject(helpers.logger.error(`Invalid new visual reference data: ${error.message}`));

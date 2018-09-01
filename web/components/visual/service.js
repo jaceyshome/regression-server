@@ -15,14 +15,20 @@ let visualService = {
             resourceType: spec.definitions.Record.properties.resourceType.enum[1],
             isArchived: false
         });
-
         //else create a new one
         if(_.isEmpty(reference)) {
-            reference = await visualModel.saveNewVisualReference(Object.assign(candidate,{
+            reference = await visualModel.saveNewVisualReference({
                 instance: history.instance,
                 server: history.server,
-            }));
+                historyId: candidate.historyId,
+                visualScreenshot: candidate.visualScreenshot,
+                browser: candidate.browser,
+                url: candidate.url,
+                name: candidate.name,
+                visualScreenshotPath: candidate.visualScreenshotPath
+            });
         }
+
         return reference;
     },
 
@@ -49,6 +55,7 @@ let visualService = {
     },
 
     async approveVisualTest(candidate) {
+
         let visualTest = await visualModel.findOneRecord(candidate);
         //validate resourceType
         if(_.isEmpty(visualTest) || visualTest.resourceType !== spec.definitions.Record.properties.resourceType.enum[0]){
@@ -57,6 +64,7 @@ let visualService = {
         if(visualTest.approvedAt && visualTest.pass) {
             return visualTest;
         }
+
         let result = await visualModel.approveVisualTest(Object.assign({}, candidate, {resourceType: visualTest.resourceType}));
         if(Object.is(result,1)) {
             return await visualModel.findOneRecord(candidate);

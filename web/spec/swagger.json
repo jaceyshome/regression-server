@@ -495,7 +495,8 @@
         "historyId" : "jmVsOEZBWHaKPEOH",
         "isArchived" : true,
         "resourceType" : "visualReference",
-        "screenshot" : "train/linux-chrome/screenshots/corporate/site-title.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/jmVsOEZBWHaKPEOH/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
       "visualTestReference" : {
@@ -504,7 +505,8 @@
         "instance" : "linux-chrome",
         "server" : "dev",
         "resourceType" : "visualReference",
-        "screenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/iYEFCpQB3T20O9iE/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
       "visualTestResult" : {
@@ -512,8 +514,10 @@
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
-        "visualDiffer" : "train/linux-chrome/differs/corporate/accordion.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualDiffer" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualDifferPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "pass" : false,
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
@@ -522,7 +526,8 @@
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "pass" : true,
         "createdAt" : "2018-03-15T09:12:33.001Z"
       },
@@ -531,8 +536,10 @@
         "historyId" : "hkgKJ84rjgGVXSXS",
         "resourceType" : "visualTest",
         "visualReferenceId" : "NZnTG4StwzPI2qoE",
-        "visualScreenshot" : "train/linux-chrome/screenshots/corporate/accordion-component.png",
+        "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
+        "visualScreenshotPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "visualDiffer" : "train/linux-chrome/differs/corporate/accordion-component.png",
+        "visualDifferPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "pass" : true,
         "createdAt" : "2018-03-15T09:12:33.001Z",
         "approvedAt" : "2018-03-25T09:12:33.001Z",
@@ -577,7 +584,7 @@
           "url" : "http://cws-localdev.sydney.edu.au/study.html",
           "name" : "Page visual regression test on the published /study.html on the CWS for Corporate",
           "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
-          "visualScreenshotPath" : "output/visual/LvlmQZxu4ivLliFu/train/linux-chrome/screenshots/the-accordion-component_w768.png",
+          "visualScreenshotPath" : "output/visual/Zlf3MUCVeKKnuJfM/train/linux-chrome/screenshots/the-accordion-component_w768.png",
           "instance" : "local",
           "server" : "localdev",
           "createdAt" : "2018-07-22T15:01:34+10:00",

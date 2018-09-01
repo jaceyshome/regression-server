@@ -75,7 +75,7 @@ describe('History get', () => {
         expect(history).toHaveProperty('visualReferences');
         expect(history.weight).toEqual(10);
 
-        let data = spec.externalDocs["x-mocks"].newVisualReference;
+        let data = support.visual.getNewVisualReference({historyId: history._id});
         let image1 =  spec.externalDocs["x-mocks"].screenshotExample1;
         let image2 =  spec.externalDocs["x-mocks"].screenshotExample2;
 
@@ -159,9 +159,13 @@ describe('History get', () => {
         res = await request
             .put('/visual')
             .send({
+                browser: failedTest.browser,
+                url: failedTest.url,
+                name: failedTest.name,
                 historyId: failedTest.historyId,
                 visualReferenceId: failedTest.visualReferenceId,
                 visualScreenshot: failedTest.visualScreenshot,
+                visualScreenshotPath: failedTest.visualScreenshotPath,
                 visualDiffer: failedTest.visualDiffer,
                 _id: failedTest._id
             }).expect('Content-Type', /json/)
@@ -181,12 +185,11 @@ describe('History get', () => {
 
         expect(history.visualReferences.length).toEqual(2);
         let newReference = history.visualReferences.find((visualReference)=> {
-            return visualReference.visualScreenshot.includes(image2);
+            return visualReference.visualScreenshot.includes(image1);
         });
 
         expect(newReference._id).not.toEqual(existedReference._id);
         expect(newReference.visualScreenshot).toEqual(existedReference.visualScreenshot);
-
 
     });
 

@@ -52,6 +52,7 @@ describe('Visual test update', () => {
         let visualTestResult = res.body.data;
         expect(visualTestResult).toHaveProperty('_id');
         expect(visualTestResult).toHaveProperty('visualScreenshot', visualReference.visualScreenshot);
+        expect(visualTestResult).toHaveProperty('visualScreenshotPath');
         expect(visualTestResult).toHaveProperty('visualReferenceId', visualReference._id);
         expect(visualTestResult).toHaveProperty('visualDiffer');
         expect(visualTestResult).toHaveProperty('visualDifferPath');
@@ -64,14 +65,16 @@ describe('Visual test update', () => {
                 historyId: visualTestResult.historyId,
                 visualReferenceId: visualTestResult.visualReferenceId,
                 visualScreenshot: visualTestResult.visualScreenshot,
-                visualDiffer: visualTestResult.visualDiffer,
-                visualDifferPath: visualTestResult.visualDifferPath,
-                _id: visualTestResult._id
+                browser: visualTestResult.browser,
+                url: visualTestResult.url,
+                name: visualTestResult.name,
+                visualScreenshotPath: visualTestResult.visualScreenshotPath,
+                _id: visualTestResult._id,
             })
             .expect('Content-Type', /json/)
             .expect(200);
         let result = res.body.data;
-
+        
         expect(result).toHaveProperty('approvedVisualTest');
         expect(result).toHaveProperty('archivedReference');
         expect(result).toHaveProperty('newReference');

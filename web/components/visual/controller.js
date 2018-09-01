@@ -14,21 +14,18 @@ let visualController = {
     async approveVisualTest(ctx) {
         let approvedVisualTest =  await service.approveVisualTest(ctx.request.body);
         if(approvedVisualTest.err) {
-            return approvedVisualTest;
+            return  {err: approvedVisualTest.err};
         }
         let archivedReference = await service.archiveReference({_id: ctx.request.body.visualReferenceId});
         if(archivedReference.err ) {
-            return archivedReference;
+            return  {err: archivedReference.err};
         }
-        let newReference = await service.createVisualReference({
-            historyId: ctx.request.body.historyId,
-            visualScreenshot: ctx.request.body.visualScreenshot
-        });
+        let newReference = await service.createVisualReference(ctx.request.body);
         if(newReference.err) {
-            return newReference;
+            return {err: newReference.err};
         }
 
-        return await {
+        return {
             approvedVisualTest ,
             archivedReference ,
             newReference
