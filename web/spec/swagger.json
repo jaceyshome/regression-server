@@ -12,19 +12,23 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "virtserver.swaggerhub.com",
-  "basePath" : "/usyd-wdd/regression-test-server/1.0.0",
+  "host" : "54.79.0.252/swagger-editor",
   "tags" : [ {
     "name" : "Viewer",
     "description" : "Operations available to the public include the privilege to\n1. view histories\n"
   } ],
   "schemes" : [ "https", "http" ],
+  "config": {
+    "testResult": {
+      "outputRoot" : "/output"
+    }
+  },
   "paths" : {
     "/history" : {
       "get" : {
         "tags" : [ "Viewer" ],
-        "summary" : "get the latest history",
-        "description" : "includes a list of visual test results, the cucumber.json path as\nthe functional test result\n",
+        "summary" : "get a histories",
+        "description" : "get a list of histories or histories with request parameters",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -53,7 +57,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "get the latest history with its list of records",
+            "description" : "get a list of histories",
             "examples" : {
               "application/json" : {
                 "$ref" : "#/externalDocs/x-mocks/latestHistory"
@@ -77,15 +81,17 @@
         "description" : "creates a new history at each of the regression test starting point",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ {
+        "parameters" : [{
+          "name" : "instance",
           "in" : "body",
-          "name" : "body",
-          "description" : "new history",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/History"
-          }
-        } ],
+          "description" : "regression test server instance, e.g. linux-chrome, win-edge",
+          "required" : true
+        },{
+          "name" : "server",
+          "in" : "body",
+          "description" : "running server, localdev, dev, test, train or prod",
+          "required" : true
+        }],
         "responses" : {
           "201" : {
             "description" : "item created",
@@ -111,21 +117,75 @@
         "description" : "use it to add a visual test result or a reference",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ {
+        "examples" : [{
+          "name" : "new visual reference",
+          "$ref" : "#/definitions/VisualReference"
+        },{
+          "name" : "new visual pass test ",
+          "$ref" : "#/definitions/newPassVisualTest"
+        }, {
+          "name" : "new visual failed test",
+          "$ref" : "#/definitions/newFailedVisualTest"
+        }],
+        "parameters" : [{
           "in" : "body",
-          "name" : "body",
-          "description" : "a test result with the 'visualTest' type to add or\na reference with the 'visualReference' type to add\n",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/VisualReference"
-          }
+          "name" : "historyId",
+          "description" : "history id of the visual screenshot",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "browser",
+          "description" : "browser version of the visual test",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "name",
+          "description" : "visual test name or visual test label",
+          "required" : true
+        },{
+          "in" : "body",
+          "name" : "visualScreenshot",
+          "description" : "visual screenshot image, use it to find the related reference or test",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "visualScreenshotPath",
+          "description" : "visual screenshot related path",
+          "required" : true
+        },{
+          "in" : "body",
+          "name" : "visualReferenceId",
+          "description" : "visual reference id, it is for the pass and failed test result",
+          "required" : false
+        },{
+          "in" : "body",
+          "name" : "isSameDimensions",
+          "description" : "visual result parameter, the visual result is the same as the dimensions of the reference or not",
+          "required" : false
+        },{
+          "in" : "body",
+          "name" : "misMatchPercentage",
+          "description" : "visual test screenshot mis match percentage with the reference",
+          "required" : false
+        },{
+          "in" : "body",
+          "name" : "visualDiffer",
+          "description" : "visual differ screenshot ",
+          "required" : false
+        },{
+          "in" : "body",
+          "name" : "visualDifferPath",
+          "description" : "visual differ screenshot related path",
+          "required" : false
         } ],
         "responses" : {
           "201" : {
             "description" : "item created",
             "examples" : {
               "application/json" : {
-                "$ref" : "#/externalDocs/x-mocks/newVisualReference"
+                "$visualTestReference" : "#/externalDocs/x-mocks/visualTestReference",
+                "$visualTestResultFail" : "#/externalDocs/x-mocks/visualTestResult",
+                "$visualTestResultPass" : "#/externalDocs/x-mocks/visualTestResultPass"
               }
             }
           },
@@ -227,133 +287,6 @@
           "type" : "string",
           "format" : "data-time"
         }
-      },
-      "example" : {
-        "server" : "local",
-        "createdAt" : "createdAt",
-        "instance" : "linux-chrome",
-        "weight" : 0,
-        "_id" : "_id"
-      }
-    },
-    "VisualReference" : {
-      "type" : "object",
-      "required" : [ "browser", "historyId", "url" ],
-      "properties" : {
-        "_id" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "resourceType" : {
-          "type" : "string"
-        },
-        "instance" : {
-          "type" : "string"
-        },
-        "server" : {
-          "type" : "string"
-        },
-        "historyId" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "browser" : {
-          "type" : "string"
-        },
-        "url" : {
-          "type" : "string"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "visualScreenShot" : {
-          "type" : "string"
-        },
-        "visualScreenShotPath" : {
-          "type" : "string",
-          "description" : "visual screenshot"
-        },
-        "isArchived" : {
-          "type" : "boolean"
-        },
-        "createdAt" : {
-          "type" : "string",
-          "format" : "date-time"
-        }
-      },
-      "example" : {
-        "server" : "server",
-        "createdAt" : "2000-01-23T04:56:07.000+00:00",
-        "instance" : "instance",
-        "historyId" : "historyId",
-        "isArchived" : true,
-        "browser" : "browser",
-        "name" : "name",
-        "visualScreenShotPath" : "visualScreenShotPath",
-        "_id" : "_id",
-        "visualScreenShot" : "visualScreenShot",
-        "url" : "url",
-        "resourceType" : "resourceType"
-      }
-    },
-    "VisualTestResult" : {
-      "type" : "object",
-      "required" : [ "browser", "historyId", "url", "visualReferenceId" ],
-      "properties" : {
-        "_id" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "resourceType" : {
-          "type" : "string"
-        },
-        "instance" : {
-          "type" : "string"
-        },
-        "server" : {
-          "type" : "string"
-        },
-        "historyId" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "visualReferenceId" : {
-          "type" : "string",
-          "format" : "uid"
-        },
-        "browser" : {
-          "type" : "string"
-        },
-        "url" : {
-          "type" : "string"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "visualScreenShot" : {
-          "type" : "string"
-        },
-        "visualScreenShotPath" : {
-          "type" : "string",
-          "description" : "visual screenshot file path"
-        },
-        "visualDiffer" : {
-          "type" : "string"
-        },
-        "visualDifferPath" : {
-          "type" : "string",
-          "description" : "visual differ file path"
-        },
-        "pass" : {
-          "type" : "boolean"
-        },
-        "isArchived" : {
-          "type" : "boolean"
-        },
-        "createdAt" : {
-          "type" : "string",
-          "format" : "date-time"
-        }
       }
     },
     "Record" : {
@@ -422,26 +355,6 @@
           "format" : "uid",
           "description" : "user id"
         }
-      },
-      "example" : {
-        "server" : "server",
-        "instance" : "instance",
-        "pass" : true,
-        "isArchived" : true,
-        "filePath" : "filePath",
-        "approvedBy" : "approvedBy",
-        "approvedAt" : "2000-01-23T04:56:07.000+00:00",
-        "url" : "url",
-        "functionalResult" : "functionalResult",
-        "visualReferenceId" : "visualReferenceId",
-        "createdAt" : "2000-01-23T04:56:07.000+00:00",
-        "historyId" : "historyId",
-        "browser" : "browser",
-        "name" : "name",
-        "visualDiffer" : "visualDiffer",
-        "_id" : "_id",
-        "visualScreenShot" : "visualScreenShot",
-        "resourceType" : "visualTest"
       }
     }
   },
@@ -554,44 +467,6 @@
         "resourceType" : "functionalTest",
         "functionalResult" : "functional-test/train/linux-chrome/cucumber.json",
         "createdAt" : "2018-03-15T09:12:33.001Z"
-      },
-      "latestHistory" : {
-        "instance" : "local",
-        "server" : "localdev",
-        "weight" : "20,",
-        "createdAt" : "2018-07-22T15:01:42+10:00",
-        "_id" : "LvlmQZxu4ivLliFu",
-        "functionalTest" : { },
-        "visualTests" : [ {
-          "historyId" : "LvlmQZxu4ivLliFu",
-          "browser" : "Chrome 65.0.3325.181",
-          "url" : "http://cws-localdev.sydney.edu.au/study.html",
-          "name" : "Page visual regression test on the published /study.html on the CWS for Corporate",
-          "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
-          "visualScreenshotPath" : "output/visual/LvlmQZxu4ivLliFu/train/linux-chrome/screenshots/the-accordion-component_w768.png",
-          "visualReferenceId" : "H4dq0K3iYuTFl9F1",
-          "isSameDimensions" : "true,",
-          "misMatchPercentage" : "0,",
-          "createdAt" : "2018-07-22T15:01:58+10:00",
-          "resourceType" : "visualTest",
-          "isArchived" : false,
-          "pass" : true,
-          "_id" : "PjzGlvqTk57rXMLc"
-        } ],
-        "visualReferences" : [ {
-          "historyId" : "Zlf3MUCVeKKnuJfM",
-          "browser" : "Chrome 65.0.3325.181",
-          "url" : "http://cws-localdev.sydney.edu.au/study.html",
-          "name" : "Page visual regression test on the published /study.html on the CWS for Corporate",
-          "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
-          "visualScreenshotPath" : "output/visual/Zlf3MUCVeKKnuJfM/train/linux-chrome/screenshots/the-accordion-component_w768.png",
-          "instance" : "local",
-          "server" : "localdev",
-          "createdAt" : "2018-07-22T15:01:34+10:00",
-          "resourceType" : "visualReference",
-          "isArchived" : false,
-          "_id" : "H4dq0K3iYuTFl9F1"
-        } ]
       }
     }
   }
