@@ -18,10 +18,8 @@
     "description" : "Operations available to the public include the privilege to\n1. view histories\n"
   } ],
   "schemes" : [ "https", "http" ],
-  "config": {
-    "testResult": {
-      "outputRoot" : "/output"
-    }
+  "testResult": {
+    "outputRoot" : "/"
   },
   "paths" : {
     "/history" : {

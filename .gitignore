@@ -4,3 +4,4 @@ yarn-error.log
 tmp/**/*
 datastore/**/*
 .DS_Store
+web/output
