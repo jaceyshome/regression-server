@@ -2,7 +2,7 @@
 # KOA REST API BOILERPLATE
 #
 # build:
-#   docker build --force-rm -t jacobwang05/regression-test-server .
+#   docker build --force-rm -t sydneyuni/regression-test-server .
 #
 #
 

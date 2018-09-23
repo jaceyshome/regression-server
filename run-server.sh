@@ -11,4 +11,4 @@ docker run  -d \
         -v ${logDirectory}/logs:/app/logs \
         -p 7071:7071 \
         -p 9651:9651 \
-        jacobwang05/regression-test-server
+        sydneyuni/regression-test-server
