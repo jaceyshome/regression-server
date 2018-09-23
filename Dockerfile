@@ -2,9 +2,9 @@
 # KOA REST API BOILERPLATE
 #
 # build:
-#   docker build --force-rm -t jacobwang05/koa-rest-api-boilerplate .
+#   docker build --force-rm -t jacobwang05/regression-test-server .
 # run:
-#   docker run --env production --name regression-test-server -p 7071:7071 jacobwang05/koa-rest-api-boilerplate
+#   docker run --env production --name regression-test-server -p 7071:7071 jacobwang05/regression-test-server
 #
 #
 
