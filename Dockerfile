@@ -15,9 +15,10 @@ LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 WORKDIR /web
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
-
 # Install pm2-runtime
 RUN npm install pm2 -g
+# Install pm2-logrotate
+RUN pm2 install pm2-logrotate
 
 
 ### DEPENDENCIES
@@ -47,7 +48,10 @@ COPY . .
 # Expose application port, production port is 7071
 EXPOSE 7071
 
+# Expose health endpoint
+EXPOSE 9615
+
 # In production environment
 ENV NODE_ENV production
 # Run
-CMD ["pm2-runtime", "process.json"]
+CMD ["pm2-runtime", "--json", "process.json", "--web"]
