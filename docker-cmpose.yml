@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  regression-test-server:
+    build: ./
+    container_name: regression-test-server
+    volumes:
+      - "./datastore:/app/datastore"
+      - "./logs:/app/logs"
+    ports:
+     - "7071:7071"
+     - "9651:9651"
+
+networks:
+  default:
+    driver: bridge
