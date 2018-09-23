@@ -1,4 +1,4 @@
-//pm2 deployment ecosystem.config file 
+//pm2 deployment ecosystem.config file
 module.exports = {
     apps: [{
       name: "app",
@@ -23,14 +23,14 @@ module.exports = {
         // path in the server
         path: "/var/www/apps/regression-test-server",
         // Pre-setup command or path to a script on your local machine
-        'pre-setup': "nvm use 9.3.0; ls -la",
+        //'pre-setup': "nvm use 9.3.0; ls -la",
         // Post-setup commands or path to a script on the host machine
         // eg: placing configurations in the shared dir etc
-        'post-setup': "nvm use 9.3.0; ls -la",
+        //'post-setup': "nvm use 9.3.0; ls -la",
         // pre-deploy action
         'pre-deploy-local': "echo 'This is a local executed command'",
         // post-deploy action
-        'post-deploy': "yarn install",
+        'post-deploy': "./run-server.sh",
       },
     }
-  }
+  };
