@@ -44,6 +44,10 @@ FROM base AS release
 COPY --from=dependencies /tmp/node_modules ./node_modules
 # Copy app sources
 COPY . .
+# Allow the logs directory to be mounted
+ONBUILD VOLUME ["/app/logs"]
+# Allow the datastore directory to be mounted
+ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
 
