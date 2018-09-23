@@ -1,6 +1,6 @@
 {
   "name": "regression-test-server",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Regression test server, RESTful API application with Koa.js, Docker, Swagger, Jest, Coveralls, and Circle CI",
   "author": "Jake Wang",
   "license": "UNLICENSED",
