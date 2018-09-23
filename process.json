@@ -1,14 +1,11 @@
 {
   "apps": [{
-    "name": "koa-rest-api-boilerplate",
-    "script": "app",
+    "name": "",
+    "script": "web",
     "instances": "max",
     "exec_mode": "cluster",
-    "watch": ["app", "node_modules", ".env", "package.json"],
+    "watch": ["web", "node_modules", ".env", "package.json"],
     "env": {
-      "NODE_ENV": "development"
-    },
-    "env_production": {
       "NODE_ENV": "production"
     }
   }]
