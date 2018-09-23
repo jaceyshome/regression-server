@@ -38,8 +38,8 @@ web/output
 # CMake
 cmake-build-debug/
 
-
-
+# Visual studio code
+*.code-workspace
 
 
 
