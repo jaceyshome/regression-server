@@ -3,8 +3,6 @@
 #
 # build:
 #   docker build --force-rm -t jacobwang05/regression-test-server .
-# run:
-#   docker run --env production --name regression-test-server -p 7071:7071 jacobwang05/regression-test-server
 #
 #
 
@@ -12,7 +10,7 @@
 FROM node:9.3.0 AS base
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
-WORKDIR /web
+WORKDIR /app
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
 # Install pm2-runtime
@@ -43,15 +41,13 @@ RUN yarn lint && yarn test
 FROM base AS release
 # Copy production dependencies
 COPY --from=dependencies /tmp/node_modules ./node_modules
-# Copy app sources
+# Copy source files, except folders and files in docker ignore files, including datastore, logs etc
 COPY . .
 # Expose application port, production port is 7071
 EXPOSE 7071
-
 # Expose health endpoint
 EXPOSE 9615
-
 # In production environment
 ENV NODE_ENV production
 # Run
-CMD ["pm2-runtime", "--json", "process.json", "--web"]
+CMD ["pm2-runtime", "--json", "process.json", "--web", "9651"]

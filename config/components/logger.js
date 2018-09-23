@@ -4,7 +4,7 @@ const path = require('path');
 const {env, name} = require('./../index');
 
 
-const directory = process.env.LOG_DIRECTORY || path.join(__dirname, '../../');
+const directory = process.env.LOG_DIRECTORY || `${path.join(__dirname, '../../')}/logs/`;
 const filename = process.env.LOG_FILENAME || `${name}.${env}.json.log`;
 
 const config = {
