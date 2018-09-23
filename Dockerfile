@@ -10,13 +10,16 @@
 FROM node:9.3.0 AS base
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
-WORKDIR /app
+WORKDIR /web
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
 # Install pm2-runtime
 RUN npm install pm2 -g
 # Install pm2-logrotate
 RUN pm2 install pm2-logrotate
+
+# Install pm2-runtime
+RUN npm install pm2 -g
 
 
 ### DEPENDENCIES
