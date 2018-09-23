@@ -43,6 +43,10 @@ FROM base AS release
 COPY --from=dependencies /tmp/node_modules ./node_modules
 # Copy source files, except folders and files in docker ignore files, including datastore, logs etc
 COPY . .
+# Allow the logs directory to be mounted
+ONBUILD VOLUME ["/app/logs"]
+# Allow the datastore directory to be mounted
+ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
 # Expose health endpoint
