@@ -1,4 +1,4 @@
-//pm2 deployment ecosystem.config file 
+//pm2 deployment ecosystem.config file
 module.exports = {
     apps: [{
       name: "app",
@@ -33,4 +33,4 @@ module.exports = {
         'post-deploy': "./run-server.sh",
       },
     }
-  }
+  };
