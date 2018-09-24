@@ -7,10 +7,12 @@ dataDirectory="/tmp/regression-test-server";
 
 docker pull sydneyuni/regression-test-server
 
-docker run  -d \
-        --name regression-test-server  \
-        -v ${dataDirectory}/datastore:/app/datastore \
-        -v ${logDirectory}/logs:/app/logs \
-        -p 7071:7071 \
-        -p 9651:9651 \
-        sydneyuni/regression-test-server
+docker restart regression-test-server
+
+#docker run  -d \
+#        --name regression-test-server  \
+#        -v ${dataDirectory}/datastore:/app/datastore \
+#        -v ${logDirectory}/logs:/app/logs \
+#        -p 7071:7071 \
+#        -p 9651:9651 \
+#        sydneyuni/regression-test-server
