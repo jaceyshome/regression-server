@@ -2,8 +2,9 @@
 
 #Production server log directory and data directory
 #For local development, don't share the log and data as different system has different location
-logDirectory="/tmp/regression-test-server";
-dataDirectory="/tmp/regression-test-server";
+logDirectory="/mnt/storage/regression-test-server";
+dataDirectory="/mnt/storage/regression-test-server";
+
 
 #Pull the latest updates
 docker pull sydneyuni/regression-test-server
