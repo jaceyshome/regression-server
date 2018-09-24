@@ -19,7 +19,7 @@
   } ],
   "schemes" : [ "https", "http" ],
   "testResult": {
-    "outputRoot" : "http://54.79.0.252/output/"
+    "outputRoot" : "/output/"
   },
   "paths" : {
     "/history" : {
