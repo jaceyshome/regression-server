@@ -6,7 +6,7 @@
     "exec_mode": "cluster",
     "watch": ["web", "node_modules", ".env", "package.json"],
     "env": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "development"
     }
   }]
 }
