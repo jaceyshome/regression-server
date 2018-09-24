@@ -1,8 +1,8 @@
 //pm2 deployment ecosystem.config file
 module.exports = {
     apps: [{
-      name: "app",
-      script: "app.js"
+      name: "regression-test-server",
+      script: "index.js"
     }],
     deploy: {
       // "production" is the environment name
