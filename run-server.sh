@@ -5,6 +5,8 @@
 logDirectory="/tmp/regression-test-server";
 dataDirectory="/tmp/regression-test-server";
 
+docker pull sydneyuni/regression-test-server
+
 docker run  -d \
         --name regression-test-server  \
         -v ${dataDirectory}/datastore:/app/datastore \
