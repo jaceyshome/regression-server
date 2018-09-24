@@ -14,9 +14,6 @@ WORKDIR /web
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
 
-# Install pm2-runtime
-RUN npm install pm2 -g
-
 
 ### DEPENDENCIES
 FROM base AS dependencies
@@ -52,4 +49,4 @@ EXPOSE 7071
 # In production environment
 ENV NODE_ENV production
 # Run
-CMD ["pm2-runtime", "process.json"]
+CMD ["yarn start;"]
