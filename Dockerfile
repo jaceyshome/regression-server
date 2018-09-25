@@ -11,9 +11,11 @@
 
 ### BASE
 FROM node:9.3.0 AS base
-### Create and login as nodejs user
-RUN groupadd -r nodejs && useradd -m -r -g -s /bin/bash nodejs nodejs
-USER nodejs
+# TODO may need to run as non-root user inside the docker container
+# See https://vimeo.com/171803492 at 17:20 mark
+# RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
+# now run as new user nodejs from group nodejs
+# USER nodejs
 ### Display nodejs version
 RUN node -v
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
