@@ -20,7 +20,7 @@
   "schemes" : [ "https", "http" ],
   "testResult": {
     "outputRoot" : "/"
-  },8
+  },
   "paths" : {
     "/history" : {
       "get" : {
