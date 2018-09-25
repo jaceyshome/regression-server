@@ -11,11 +11,14 @@
 
 ### BASE
 FROM node:9.3.0 AS base
+### Create and login as nodejs user
+RUN groupadd -r nodejs && useradd -m -r -g -s /bin/bash nodejs nodejs
+USER nodejs
 ### Display nodejs version
 RUN node -v
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
-WORKDIR /web
+WORKDIR /app
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
 
