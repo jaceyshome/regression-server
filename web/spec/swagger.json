@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Regression test server API",
-    "version" : "1.8.7",
+    "version" : "1.9.0",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -20,7 +20,7 @@
   "schemes" : [ "https", "http" ],
   "testResult": {
     "outputRoot" : "/"
-  },
+  },8
   "paths" : {
     "/history" : {
       "get" : {
