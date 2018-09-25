@@ -5,6 +5,7 @@ tmp/**/*
 datastore/**/*
 .DS_Store
 web/output
+logs/**/*.log
 
 ### Project ###
 .*.log
@@ -41,22 +42,6 @@ cmake-build-debug/
 # Visual studio code
 *.code-workspace
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # IntelliJ
 /out/
 
@@ -88,7 +73,6 @@ fabric.properties
 
 ### Node ###
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*

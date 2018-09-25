@@ -1,22 +1,23 @@
 #
 # KOA REST API BOILERPLATE
 #
+# test and development:
+#    using docker-compose: docker-compose up --build
 # build:
-#   docker build --force-rm -t sydneyuni/regression-test-server .
-#
+#    docker build --force-rm -t sydneyuni/regression-test-server .
+# push:
+#    docker push sydneyuni/regression-test-server .
 #
 
 ### BASE
 FROM node:9.3.0 AS base
+### Display nodejs version
+RUN node -v
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
 WORKDIR /app
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
-# Install pm2-runtime
-RUN npm install pm2 -g
-# Install pm2-logrotate
-RUN pm2 install pm2-logrotate
 
 
 ### DEPENDENCIES
@@ -49,9 +50,8 @@ ONBUILD VOLUME ["/app/logs"]
 ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
-# Expose health endpoint
-EXPOSE 9615
 # In production environment
 ENV NODE_ENV production
 # Run
-CMD ["pm2-runtime", "--json", "process.json", "--web", "9651"]
+CMD ["node", "web"]
+

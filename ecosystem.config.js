@@ -1,4 +1,18 @@
 //pm2 deployment ecosystem.config file
+/**
+ # Setup deployment at remote location
+    $ pm2 deploy production setup
+
+ # Update remote version
+    $ pm2 deploy production update
+
+ # Revert to -1 deployment
+    $ pm2 deploy production revert 1
+
+ # execute command on remote machines
+    $ pm2 deploy production exec "pm2 reload all"
+ *
+ */
 module.exports = {
     apps: [{
       name: "regression-test-server",
@@ -23,14 +37,14 @@ module.exports = {
         // path in the server
         path: "/var/www/apps/regression-test-server",
         // Pre-setup command or path to a script on your local machine
-        //'pre-setup': "nvm use 9.3.0; ls -la",
+        // "pre-setup" : "apt-get install git",
         // Post-setup commands or path to a script on the host machine
         // eg: placing configurations in the shared dir etc
-        //'post-setup': "nvm use 9.3.0; ls -la",
+        // 'post-setup': "./scripts/run.sh",
         // pre-deploy action
         'pre-deploy-local': "echo 'This is a local executed command'",
         // post-deploy action
-        'post-deploy': "./run-server.sh",
+        'post-deploy': "./scripts/run.sh",
       },
     }
   };
