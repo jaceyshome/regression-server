@@ -12,7 +12,7 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "54.79.0.252/swagger-editor",
+  "host" : "/swagger-editor",
   "tags" : [ {
     "name" : "Viewer",
     "description" : "Operations available to the public include the privilege to\n1. view histories\n"
