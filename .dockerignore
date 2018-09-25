@@ -7,10 +7,9 @@
 node_modules
 
 # Logs
-logs
 *.log
 *.log.[0-9]
-log*
+*.log.*
 
 # Coverage directory
 lib-cov

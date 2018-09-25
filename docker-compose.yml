@@ -1,5 +1,6 @@
 version: '2'
 
+#Docker compose is a way of testing the Dockerfile
 services:
   regression-test-server:
     build: ./
@@ -9,7 +10,6 @@ services:
       - "./logs:/app/logs"
     ports:
      - "7071:7071"
-     - "9651:9651"
 
 networks:
   default:

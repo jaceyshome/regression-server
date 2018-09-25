@@ -1,6 +1,7 @@
 #
 # KOA REST API BOILERPLATE
 #
+# Test build
 # build:
 #   docker build --force-rm -t sydneyuni/regression-test-server .
 #
@@ -8,6 +9,8 @@
 
 ### BASE
 FROM node:9.3.0 AS base
+### Display nodejs version
+RUN node -v
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
 WORKDIR /web
@@ -45,8 +48,7 @@ ONBUILD VOLUME ["/app/logs"]
 ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
-
 # In production environment
 ENV NODE_ENV production
 # Run
-CMD ["yarn start;"]
+CMD ["node", "web"]

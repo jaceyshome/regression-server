@@ -5,10 +5,15 @@
 #logDirectory="/tmp/regression-test-server";
 #dataDirectory="/tmp/regression-test-server";
 
+
+#Pull the latest updates
+#docker pull sydneyuni/regression-test-server
+#Stop the current container
+docker stop regression-test-server
+#Remove the current container
+docker rm -f regression-test-server
+#Create a new one
 docker run  -d \
         --name regression-test-server  \
-       # -v ${dataDirectory}/datastore:/app/datastore \
-       # -v ${logDirectory}/logs:/app/logs \
         -p 7071:7071 \
-        -p 9651:9651 \
         sydneyuni/regression-test-server
