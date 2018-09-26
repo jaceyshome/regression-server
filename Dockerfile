@@ -10,7 +10,7 @@
 #
 
 ### BASE
-FROM node:9.3.0 AS base
+FROM node:9.3.0-alpine AS base
 # TODO may need to run as non-root user inside the docker container
 # See https://vimeo.com/171803492 at 17:20 mark
 # RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
@@ -55,7 +55,7 @@ ONBUILD VOLUME ["/app/logs"]
 ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
-# In production environment
-ENV NODE_ENV production
+# In development environment
+ENV NODE_ENV development
 # Run
 CMD ["node", "web"]
