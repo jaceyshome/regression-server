@@ -55,8 +55,8 @@ ONBUILD VOLUME ["/app/logs"]
 ONBUILD VOLUME ["/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
-# In development environment
-ENV NODE_ENV development
+# In production environment
+ENV NODE_ENV production
 # Run
 CMD ["node", "web"]
 
