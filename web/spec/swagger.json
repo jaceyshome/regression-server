@@ -1,8 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
+    "version": "0.0.0",
     "description" : "Regression test server API",
-    "version" : "1.8.2",
     "title" : "Regression test server API",
     "contact" : {
       "email" : "jake.wang@sydney.edu.au"
@@ -18,9 +18,6 @@
     "description" : "Operations available to the public include the privilege to\n1. view histories\n"
   } ],
   "schemes" : [ "https", "http" ],
-  "testResult": {
-    "outputRoot" : "/"
-  },
   "paths" : {
     "/history" : {
       "get" : {
