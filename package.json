@@ -16,6 +16,11 @@
     "node": "9.3.0"
   },
   "main": "./web/index.js",
+  "config": {
+    "imageRepo": "sydneyuni/regression-server",
+    "imageName": "regression-server",
+    "imagePort": "7071"
+  },
   "scripts": {
     "start": "node ./web/index.js",
     "dev": "NODE_ENV=development nodemon start ./web/index.js --quiet | bunyan",
@@ -31,6 +36,7 @@
     "lint": "eslint app test",
     "lint:app": "eslint app",
     "lint:test": "eslint test",
+    "build": "NODE_ENV=production",
     "predocker:build": "npm run build",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
