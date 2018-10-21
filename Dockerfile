@@ -1,12 +1,10 @@
 #
-# KOA REST API BOILERPLATE
+# Regression server docker image file
 #
-# test and development:
-#    using docker-compose: docker-compose up --build
 # build:
-#    docker build --force-rm -t sydneyuni/regression-test-server .
+#    docker build --force-rm -t sydneyuni/regression-server .
 # push:
-#    docker push sydneyuni/regression-test-server .
+#    docker push sydneyuni/regression-server .
 #
 
 ### BASE
