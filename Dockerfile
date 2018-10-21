@@ -11,16 +11,9 @@
 
 ### BASE
 FROM node:9.3.0-alpine AS base
-# TODO may need to run as non-root user inside the docker container
-# See https://vimeo.com/171803492 at 17:20 mark
-# RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
-# now run as new user nodejs from group nodejs
-# USER nodejs
-### Display nodejs version
-RUN node -v
 LABEL maintainer "Jake Wang <jake.wang@sydney.edu.au>"
 # Set the working directory
-WORKDIR /app
+WORKDIR /home/node/app
 # Copy project specification and dependencies lock files
 COPY package.json yarn.lock ./
 
@@ -57,5 +50,7 @@ ONBUILD VOLUME ["/app/datastore"]
 EXPOSE 7071
 # In development environment
 ENV NODE_ENV development
+# set node user to run this image
+USER node
 # Run
 CMD ["node", "web"]

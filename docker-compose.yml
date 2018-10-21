@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 #Docker compose is a way of testing the Dockerfile
 services:
@@ -6,11 +6,11 @@ services:
     build: ./
     container_name: regression-test-server
     volumes:
-      - "./datastore:/app/datastore"
-      - "./logs:/app/logs"
+      - "./datastore:/home/node/app/datastore"
+      - "./logs:/home/node/app/logs"
     ports:
      - "7071:7071"
 
 networks:
-  default:
+  regression:
     driver: bridge
