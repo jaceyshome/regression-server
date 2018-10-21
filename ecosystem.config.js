@@ -15,7 +15,7 @@
  */
 module.exports = {
     apps: [{
-      name: "regression-test-server",
+      name: "regression-server",
       script: "index.js"
     }],
     deploy: {
@@ -33,9 +33,9 @@ module.exports = {
         // GIT remote/branch
         ref: "origin/master",
         // GIT remote
-        repo: "git@bitbucket.org:jaceyshome/regression-test-server.git",
+        repo: "git@bitbucket.org:jaceyshome/regression-server.git",
         // path in the server
-        path: "/var/www/apps/regression-test-server",
+        path: "/var/www/apps/regression-server",
         // Pre-setup command or path to a script on your local machine
         // "pre-setup" : "apt-get install git",
         // Post-setup commands or path to a script on the host machine
