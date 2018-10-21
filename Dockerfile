@@ -1,12 +1,10 @@
 #
-# KOA REST API BOILERPLATE
+# Regression server docker image file
 #
-# test and development:
-#    using docker-compose: docker-compose up --build
 # build:
-#    docker build --force-rm -t sydneyuni/regression-test-server .
+#    docker build --force-rm -t sydneyuni/regression-server .
 # push:
-#    docker push sydneyuni/regression-test-server .
+#    docker push sydneyuni/regression-server .
 #
 
 ### BASE
@@ -49,7 +47,7 @@ ONBUILD VOLUME ["/home/node/app/datastore"]
 # Expose application port, production port is 7071
 EXPOSE 7071
 # In development environment
-ENV NODE_ENV development
+ENV NODE_ENV production
 # set node user to run this image
 USER node
 # Run
