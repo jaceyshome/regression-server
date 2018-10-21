@@ -40,16 +40,22 @@ FROM base AS release
 COPY --from=dependencies /tmp/node_modules ./node_modules
 # Copy source files, except folders and files in docker ignore files, including datastore, logs etc
 COPY . .
+# Create mountable folders
+RUN mkdir /home/node/app/logs
+RUN mkdir /home/node/app/datastore
+# FIXME: set node user and group not working
+# Set the working directory user and group
+#RUN chown node:node -R /home/node/app
 # Allow the logs directory to be mounted
+# Set node user to run this image
+#USER node
 ONBUILD VOLUME ["/home/node/app/logs"]
 # Allow the datastore directory to be mounted
 ONBUILD VOLUME ["/home/node/app/datastore"]
-# Expose application port, production port is 7071
+# Expose application port, production port
 EXPOSE 7071
 # In production environment
 ENV NODE_ENV production
-# set node user to run this image
-USER node
 # Run
 CMD ["node", "web"]
 
