@@ -337,6 +337,9 @@
         "pass" : {
           "type" : "boolean"
         },
+        "viewport": {
+          "type" : "string"
+        },
         "createdAt" : {
           "type" : "string",
           "format" : "date-time"
@@ -373,6 +376,7 @@
         "browser" : "Chrome 65.0.3325.181",
         "url" : "https://cws-localdev.sydney.edu.au/styleguide/accordion.html",
         "name" : "the accordion component",
+        "viewport": "1024x768",
         "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "visualScreenshotPath" : "output/visual/hkgKJ84rjgGVXSXS/train/linux-chrome/screenshots/the-accordion-component_w768.png"
       },
@@ -382,6 +386,7 @@
         "browser" : "Chrome 65.0.3325.181",
         "url" : "https://cws-localdev.sydney.edu.au/styleguide/accordion.html",
         "name" : "the accordion component",
+        "viewport": "1024x768",
         "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "visualScreenshotPath" : "output/visual/jmVsOEZBWHaKPEOH/train/linux-chrome/screenshots/the-accordion-component_w768.png"
       },
@@ -390,6 +395,7 @@
         "browser" : "Chrome 65.0.3325.181",
         "url" : "http://cws-localdev.sydney.edu.au//study.html",
         "name" : "mobile navigation dropdown menu",
+        "viewport": "1024x768",
         "visualScreenshot" : "train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "visualScreenshotPath" : "output/visual/ZwVlRQ3qtnpUoxqt/train/linux-chrome/screenshots/the-accordion-component_w768.png",
         "visualReferenceId" : "LdSjF2OxobGu5UUN",

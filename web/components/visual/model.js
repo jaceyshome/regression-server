@@ -11,6 +11,7 @@ const schemaNewReference = joi.object().keys({
     browser: joi.string().required(),
     url: joi.string().required(),
     name: joi.string().optional(),
+    viewport: joi.string().optional(),
     visualScreenshot: joi.string().required(),
     visualScreenshotPath: joi.string().required()
 }).without('createdAt', '_id');
@@ -23,6 +24,7 @@ const schemaVisualTestResult = joi.object().keys({
     name: joi.string().required(),
     visualScreenshot: joi.string().required(),
     visualScreenshotPath: joi.string().required(),
+    viewport: joi.string().optional(),
     isSameDimensions: joi.boolean().optional(),
     misMatchPercentage: joi.number().optional(),
     visualDiffer: joi.string().optional(),
@@ -207,7 +209,7 @@ let visualModel = {
                     resolve(result);
                 }
             });
-            
+
         });
     },
 
