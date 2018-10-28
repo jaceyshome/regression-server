@@ -25,6 +25,7 @@ let visualService = {
                 browser: candidate.browser,
                 url: candidate.url,
                 name: candidate.name,
+                viewport: candidate.viewport,
                 visualScreenshotPath: candidate.visualScreenshotPath
             });
         }
