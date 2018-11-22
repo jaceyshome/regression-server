@@ -5,7 +5,7 @@ const supertest = require('supertest');
 const web = require('./../../../index');
 const support = require('./../../../test/support');
 
-describe('Functional post', () => {
+describe('Report post', () => {
     let request;
     let app;
     let history;
@@ -28,22 +28,22 @@ describe('Functional post', () => {
         history = res.body.data;
 
         expect(history).toHaveProperty('_id');
-        expect(history).toHaveProperty('functionalTest');
+        expect(history).toHaveProperty('report');
         expect(history).toHaveProperty('visualTests', []);
         expect(history).toHaveProperty('visualReferences', []);
     });
 
-    it('should add the functional test result to the history', async() => {
+    it('should add cucumber report file link ', async() => {
         let res = await request
-            .post('/functional')
-            .send(support.functional.getNewFunctionalTestInstance({historyId: history._id}))
+            .post('/report')
+            .send(support.report.getNewReport({historyId: history._id}))
             .expect('Content-Type', /json/)
             .expect(200);
 
 
-        let functionalTest = res.body.data;
-        expect(functionalTest).toHaveProperty('_id');
-        expect(functionalTest).toHaveProperty('functionalResult');
+        let report = res.body.data;
+        expect(report).toHaveProperty('_id');
+        expect(report).toHaveProperty('report');
 
         res = await request
             .get(`/history?id=${history._id}`)
@@ -51,8 +51,8 @@ describe('Functional post', () => {
             .expect(200);
 
         let latestHistory = res.body.data;
-        expect(latestHistory).toHaveProperty('functionalTest');
-        expect(latestHistory.functionalTest).toEqual(functionalTest);
+        expect(latestHistory).toHaveProperty('report');
+        expect(latestHistory.report).toEqual(report);
 
     });
 

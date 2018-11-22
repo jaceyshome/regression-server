@@ -220,11 +220,11 @@
         }
       }
     },
-    "/functional" : {
+    "/report" : {
       "post" : {
         "tags" : [ "Viewer" ],
-        "summary" : "adds a functional test result",
-        "description" : "adds the cucumber test result json file as a record to the rescord schema\n",
+        "summary" : "save the cucumber report html file link",
+        "description" : "save the cucumber report html file link to the related history\n",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -313,7 +313,7 @@
         },
         "resourceType" : {
           "type" : "string",
-          "enum" : [ "visualTest", "visualReference", "functionalTest" ]
+          "enum" : [ "visualTest", "visualReference", "report" ]
         },
         "visualReferenceId" : {
           "type" : "string"
@@ -331,7 +331,7 @@
         "isArchived" : {
           "type" : "boolean"
         },
-        "functionalResult" : {
+        "report" : {
           "type" : "string"
         },
         "pass" : {
@@ -459,14 +459,15 @@
         "approvedAt" : "2018-03-25T09:12:33.001Z",
         "approvedBy" : "J84csdrjgGKdo2d"
       },
-      "newFunctionalTest" : {
-        "functionalResult" : "functional-test/train/linux-chrome/cucumber.json"
+      "newCucumberReport" : {
+        "historyId": "hkgKJ84rjgGVXSXS",
+        "report" : "output/regression/train/cucumber-report.json"
       },
-      "functionalTestResult" : {
+      "cucumberReport" : {
         "_id" : "OzXiStRgcuoJsD3X",
         "historyId" : "hkgKJ84rjgGVXSXS",
-        "resourceType" : "functionalTest",
-        "functionalResult" : "functional-test/train/linux-chrome/cucumber.json",
+        "resourceType" : "report",
+        "report" : "output/regression/train/cucumber-report.json",
         "createdAt" : "2018-03-15T09:12:33.001Z"
       }
     }

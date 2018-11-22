@@ -194,3 +194,4 @@ tags
 .vscode/
 tsconfig.json
 jsconfig.json
+.history

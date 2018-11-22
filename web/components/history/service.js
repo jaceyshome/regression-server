@@ -1,14 +1,14 @@
 const _ = require('lodash');
 const historyModel = require('./model');
 const visualModel = require('../visual/model');
-const functionModel = require('../functional/model');
+const reportModel = require('../report/model');
 
 let historyService = {
 
     async createHistory(candidate) {
         let count = await historyModel.countHistories();
         let history =  await historyModel.saveNewHistory(Object.assign({}, candidate, {weight: (count + 1) * 10}));
-        history.functionalTest = {};
+        history.report = {};
         history.visualTests = [];
         history.visualReferences = await visualModel.listVisualReferences({
             instance: history.instance,
@@ -30,7 +30,7 @@ let historyService = {
 
         let visualFailedTotal = await visualModel.getHistoryVisualFailedTotalObject(history._id);
         Object.assign(history, visualFailedTotal);
-        history.functionalTest = await functionModel.getFunctionalTestResult(history._id);
+        history.report = await reportModel.getReport(history._id);
         history.visualTests = await visualModel.listHistoryVisualTests(history._id);
         history.visualReferences = await visualModel.listVisualReferences({
             instance: history.instance,
