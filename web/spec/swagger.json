@@ -463,11 +463,11 @@
         "report" : "output/regression/train/cucumber-report.json"
       },
       "cucumberReport" : {
-        "_id" : "OzXiStRgcuoJsD3X",
-        "historyId" : "hkgKJ84rjgGVXSXS",
-        "resourceType" : "report",
-        "report" : "output/regression/train/cucumber-report.json",
-        "createdAt" : "2018-03-15T09:12:33.001Z"
+        "historyId": "kHLBOeb8LGaXUPZ2",
+        "report": "output/regression/kHLBOeb8LGaXUPZ2/cucumber_report.html",
+        "createdAt": "2018-11-23T00:00:32+11:00",
+        "resourceType": "report",
+        "_id": "CBDsXpXhccEjVrAt"
       }
     }
   }
