@@ -27,3 +27,4 @@ circle*
 .circle*
 datastore
 logs
+.history
