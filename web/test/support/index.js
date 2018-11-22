@@ -1,9 +1,9 @@
 const history = require('./history');
 const visual = require('./visual');
-const functional = require('./functional');
+const report = require('./report');
 
 module.exports = {
     history,
     visual,
-    functional
+    report
 };

@@ -5,25 +5,25 @@ const nedb = require('./../../../models/nedb');
 
 const schemaNewFunctionalTestResult = joi.object().keys({
     historyId: joi.string().required(),
-    functionalResult: joi.string().required()
+    report: joi.string().required()
 }).without('createdAt', '_id');
 
-let functionalModel = {
+let reportModel = {
 
-    addFunctionalTestResult(candidate) {
+    saveReport(candidate) {
 
         return new Promise((resolve, reject)=> {
 
             const {error, value: data} = joi.validate(candidate, schemaNewFunctionalTestResult);
             if (error) {
-                return reject(helpers.logger.error(`Invalid data for the new functional test: ${error.message}`));
+                return reject(helpers.logger.error(`Invalid data for the new report file: ${error.message}`));
             }
             data.createdAt = helpers.dates.getDateTime();
             data.resourceType = spec.definitions.Record.properties.resourceType.enum[2];
 
             nedb.datastore.records.insert(data, (err, result)=> {
                 if(err){
-                    return reject(helpers.logger.error(`Failed to insert a new functional test result: ${err}`));
+                    return reject(helpers.logger.error(`Failed to save a report result: ${err}`));
                 } else {
                     return resolve(result);
                 }
@@ -32,7 +32,7 @@ let functionalModel = {
         });
     },
 
-    getFunctionalTestResult(historyId) {
+    getReport(historyId) {
         return new Promise((resolve, reject)=> {
             let data = {
                 historyId: historyId,
@@ -40,7 +40,7 @@ let functionalModel = {
             };
             nedb.datastore.records.findOne(data, (err, result)=> {
                 if(err){
-                    return reject(helpers.logger.error(`Failed to find the matched functional test result: 
+                    return reject(helpers.logger.error(`Failed to find the matched report:
                                                         ${err} for ${JSON.stringify(data)}`));
                 } else {
                     resolve(result);
@@ -50,4 +50,4 @@ let functionalModel = {
     },
 };
 
-module.exports = functionalModel;
+module.exports = reportModel;
