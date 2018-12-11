@@ -1,23 +1,23 @@
 {
   "name": "regression-server",
   "version": "1.14.0",
-  "description": "Regression test server, RESTful API application with Koa.js, Docker, Swagger, Jest, Coveralls, and Circle CI",
-  "author": "Jake Wang",
+  "description": "Regression test server, RESTful API application with Koa.js, Docker, Swagger, Jest",
+  "author": "Weican Wang",
+  "license": "MIT",
   "keywords": [
     "koa",
     "koa2",
     "rest",
     "restful",
     "api",
-    "regression",
-    "skeleton"
+    "regression"
   ],
   "engines": {
     "node": "9.3.0"
   },
   "main": "./web/index.js",
   "config": {
-    "imageRepo": "sydneyuni/regression-server",
+    "imageRepo": "jacobwang05/regression-server",
     "imageName": "regression-server",
     "imagePort": "7071"
   },
