@@ -69,12 +69,19 @@ More details about using npm scripts for docker are in [duluca/npm-scripts-for-d
 
 ## Built with
 [Bunyan](https://www.npmjs.com/package/bunyan)
+
 [Jest](https://jestjs.io/)
+
 [Joi](https://www.npmjs.com/package/joi)
+
 [Koa.js](https://koajs.com/)
+
 [NeDB](https://github.com/louischatriot/nedb)
+
 [npm-scripts-for-docker.md](https://gist.github.com/duluca/d13e501e870215586271b0f9ce1781ce/)
+
 [posquit0/koa-rest-api-boilerplate](https://github.com/posquit0/koa-rest-api-boilerplate)
+
 [SwaggerHub](https://app.swaggerhub.com/apis/jaceyshome/regression-test-server/1.5.0)
 
 
