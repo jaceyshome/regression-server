@@ -10,7 +10,8 @@
     "rest",
     "restful",
     "api",
-    "regression"
+    "regression",
+    "nedb"
   ],
   "engines": {
     "node": "9.3.0"
